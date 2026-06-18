@@ -237,6 +237,20 @@
     body.admin-mode .admin-only { display: flex !important; }
     body:not(.admin-mode) .admin-only { display: none !important; }
     /* Save indicator */
+
+    /* ── ANN IMAGE UPLOAD ── */
+    .ann-img-upload {
+      border: 2px dashed var(--border); border-radius: 6px;
+      padding: 1rem; cursor: pointer; transition: border-color 0.2s;
+      min-height: 80px;
+    }
+    .ann-img-upload:hover { border-color: var(--green); }
+    .ann-img-placeholder {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.4rem; padding: 0.5rem;
+    }
+
     /* ── ANNOUNCEMENT MODAL ── */
     #annModal {
       display: none; position: fixed; inset: 0; z-index: 10000;
@@ -2586,6 +2600,18 @@
           <label>Κείμενο ανακοίνωσης</label>
           <textarea id="annModalBody" placeholder="Γράψε εδώ το κείμενο της ανακοίνωσής σου..."></textarea>
         </div>
+        <div class="ann-modal-field">
+          <label>Φωτογραφία (προαιρετικό)</label>
+          <div class="ann-img-upload" onclick="document.getElementById('annModalImg').click()">
+            <div id="annImgPreview" class="ann-img-placeholder">
+              <span style="font-size:1.5rem;">📷</span>
+              <span style="font-size:0.8rem;color:var(--muted);">Κλικ για προσθήκη φωτογραφίας</span>
+            </div>
+            <img id="annImgPreviewImg" src="" style="display:none;width:100%;max-height:180px;object-fit:cover;border-radius:6px;"/>
+            <input type="file" id="annModalImg" accept="image/*" style="display:none" onchange="previewAnnImg(this)"/>
+          </div>
+          <button id="annRemoveImg" onclick="removeAnnImg()" style="display:none;margin-top:0.4rem;background:none;border:none;color:#c0392b;font-size:0.78rem;cursor:pointer;text-align:left;">✕ Αφαίρεση φωτογραφίας</button>
+        </div>
       </div>
       <div class="ann-modal-footer">
         <button class="ann-modal-cancel" onclick="closeAnnModal()">Ακύρωση</button>
@@ -2874,18 +2900,18 @@
           card.className = 'ann-card';
           card.dataset.id = ann.id;
           const dateFormatted = new Date(ann.date).toLocaleDateString('el-GR', { day:'numeric', month:'long', year:'numeric' });
+          const imgHtml = ann.image ? `<img src="${ann.image}" style="width:100%;max-height:280px;object-fit:cover;border-radius:6px;margin-top:0.8rem;"/>` : '';
+          const delBtn = `<button class="btn-del-ann admin-only" onclick="deleteAnnouncement(${ann.id})" style="display:${isAdmin ? 'flex' : 'none'};position:absolute;top:1rem;right:1rem;background:#c0392b;color:#fff;border:none;border-radius:50%;width:28px;height:28px;align-items:center;justify-content:center;cursor:pointer;font-size:0.75rem;">✕</button>`;
+          card.style.position = 'relative';
           card.innerHTML = `
+            ${delBtn}
             <div class="ann-date">${dateFormatted}</div>
             <div class="ann-title">${ann.title}</div>
-            <div class="ann-body">${ann.body || ''}</div>
-            <button class="btn-del-ann admin-only" onclick="deleteAnnouncement(${ann.id})" style="display:none;">✕</button>
+            ${ann.body ? `<div class="ann-body">${ann.body}</div>` : ''}
+            ${imgHtml}
           `;
           container.appendChild(card);
         });
-        // Show delete buttons if admin
-        if (isAdmin) {
-          container.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
-        }
       } catch(e) {
         console.error('loadAnnouncements error:', e);
       }
@@ -3184,7 +3210,32 @@
     }
     function closeAnnModal() {
       document.getElementById('annModal').classList.remove('open');
+      removeAnnImg();
     }
+    let annImageData = null;
+
+    function previewAnnImg(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        annImageData = e.target.result;
+        document.getElementById('annImgPreview').style.display = 'none';
+        const img = document.getElementById('annImgPreviewImg');
+        img.src = annImageData; img.style.display = 'block';
+        document.getElementById('annRemoveImg').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeAnnImg() {
+      annImageData = null;
+      document.getElementById('annModalImg').value = '';
+      document.getElementById('annImgPreviewImg').style.display = 'none';
+      document.getElementById('annImgPreview').style.display = 'flex';
+      document.getElementById('annRemoveImg').style.display = 'none';
+    }
+
     async function submitAnnouncement() {
       const title = document.getElementById('annModalTitle').value.trim();
       const body = document.getElementById('annModalBody').value.trim();
@@ -3199,11 +3250,12 @@
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + adminToken
           },
-          body: JSON.stringify({ title, body, date: today })
+          body: JSON.stringify({ title, body, date: today, image: annImageData })
         });
         const ann = await res.json();
         if (ann.id) {
           closeAnnModal();
+          annImageData = null;
           await loadAnnouncements();
           const toast = document.getElementById('saveToast');
           toast.textContent = '✅ Η ανακοίνωση δημοσιεύτηκε!';
