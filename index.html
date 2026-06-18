@@ -328,6 +328,79 @@
     }
     #saveToast.show { opacity: 1; }
 
+
+    /* ── CMS PANEL ── */
+    #cmsOverlay {
+      display: none; position: fixed; inset: 0; z-index: 10001;
+      background: rgba(0,0,0,0.7); align-items: flex-start; justify-content: center;
+      padding: 2rem; overflow-y: auto;
+    }
+    #cmsOverlay.open { display: flex; }
+    .cms-box {
+      background: #fff; border-radius: 12px; width: 100%; max-width: 900px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4); margin: auto;
+    }
+    .cms-header {
+      background: var(--green); padding: 1.2rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-radius: 12px 12px 0 0;
+    }
+    .cms-header h3 { color: #fff; font-family: "Playfair Display",serif; font-size: 1.1rem; font-weight: 600; }
+    .cms-close { background: none; border: none; color: rgba(255,255,255,0.8); font-size: 1.3rem; cursor: pointer; }
+    .cms-body { padding: 1.5rem; display: grid; grid-template-columns: 260px 1fr; gap: 1.5rem; min-height: 500px; }
+    .cms-tree { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .cms-tree-header {
+      background: var(--bg); padding: 0.8rem 1rem;
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cms-tree-list { list-style: none; padding: 0.5rem 0; }
+    .cms-tree-item {
+      padding: 0.5rem 1rem; font-size: 0.82rem; cursor: pointer;
+      color: var(--ink); transition: background 0.15s; display: flex;
+      align-items: center; justify-content: space-between; gap: 0.5rem;
+    }
+    .cms-tree-item:hover { background: var(--green-lt); color: var(--green); }
+    .cms-tree-item.active { background: var(--green-lt); color: var(--green); font-weight: 600; border-left: 3px solid var(--green); }
+    .cms-tree-child { padding-left: 1.8rem; font-size: 0.78rem; color: var(--muted); }
+    .cms-tree-child.active { color: var(--green); font-weight: 600; }
+    .cms-tree-grandchild { padding-left: 3rem; font-size: 0.74rem; }
+    .cms-del-btn { background: none; border: none; color: #c0392b; cursor: pointer; font-size: 0.75rem; opacity: 0; padding: 2px 5px; border-radius: 3px; }
+    .cms-tree-item:hover .cms-del-btn { opacity: 1; }
+    .cms-editor { display: flex; flex-direction: column; gap: 1rem; }
+    .cms-editor-header { font-family: "Playfair Display",serif; font-size: 1.1rem; font-weight: 600; color: var(--ink); padding-bottom: 0.8rem; border-bottom: 1px solid var(--border); }
+    .cms-field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .cms-field label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 600; }
+    .cms-field input, .cms-field select {
+      padding: 0.65rem 0.9rem; border: 1px solid var(--border);
+      border-radius: 6px; font-size: 0.88rem; font-family: "Inter",sans-serif;
+      color: var(--ink); outline: none; transition: border-color 0.2s;
+    }
+    .cms-field input:focus, .cms-field select:focus { border-color: var(--green); }
+    .cms-content-editor {
+      border: 1px solid var(--border); border-radius: 6px; min-height: 200px;
+      padding: 1rem; font-size: 0.88rem; line-height: 1.8; color: var(--ink);
+      outline: none; font-family: "Inter",sans-serif;
+    }
+    .cms-content-editor:focus { border-color: var(--green); }
+    .cms-toolbar { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+    .cms-tb-btn {
+      padding: 0.3rem 0.6rem; border: 1px solid var(--border);
+      border-radius: 4px; background: #fff; cursor: pointer;
+      font-size: 0.78rem; transition: all 0.15s;
+    }
+    .cms-tb-btn:hover { background: var(--green); color: #fff; border-color: var(--green); }
+    .cms-img-preview { width: 100%; max-height: 150px; object-fit: cover; border-radius: 6px; display: none; }
+    .cms-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg); border-radius: 0 0 12px 12px; }
+    .cms-btn-save { padding: 0.65rem 1.5rem; background: var(--green); color: #fff; border: none; border-radius: 6px; font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: "Inter",sans-serif; }
+    .cms-btn-save:hover { background: #2d6336; }
+    .cms-btn-new { padding: 0.65rem 1.2rem; background: #fff; color: var(--green); border: 1px solid var(--green); border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: "Inter",sans-serif; }
+
+    /* Dynamic pages in nav */
+    .dynamic-page { display: none; }
+    .dynamic-page.active { display: block; }
+
     /* ── EDIT BAR ── */
     .edit-bar {
       position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 199;
@@ -2635,6 +2708,38 @@
 
 
 
+
+  <!-- CMS PANEL -->
+  <div id="cmsOverlay">
+    <div class="cms-box">
+      <div class="cms-header">
+        <h3>📄 Διαχείριση Σελίδων</h3>
+        <button class="cms-close" onclick="closeCMS()">✕</button>
+      </div>
+      <div class="cms-body">
+        <!-- Tree -->
+        <div class="cms-tree">
+          <div class="cms-tree-header">
+            <span>Σελίδες</span>
+            <button class="cms-tb-btn" onclick="showNewPageForm(null)" style="padding:2px 8px;font-size:0.7rem;">+ Νέα</button>
+          </div>
+          <ul class="cms-tree-list" id="cmsTreeList">
+            <li style="padding:1rem;color:var(--muted);font-size:0.8rem;">Φόρτωση...</li>
+          </ul>
+        </div>
+        <!-- Editor -->
+        <div class="cms-editor" id="cmsEditor">
+          <div class="cms-editor-header">Επιλέξτε σελίδα για επεξεργασία</div>
+          <p style="color:var(--muted);font-size:0.85rem;">Πάτα σε μια σελίδα αριστερά για να την επεξεργαστείς, ή πρόσθεσε νέα.</p>
+        </div>
+      </div>
+      <div class="cms-footer">
+        <button class="cms-btn-new" onclick="showNewPageForm(null)">+ Νέα Σελίδα</button>
+        <button class="cms-btn-save" id="cmsSaveBtn" onclick="saveCMSPage()" style="display:none;">💾 Αποθήκευση</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ANNOUNCEMENT MODAL -->
   <div id="annModal">
     <div class="ann-modal-box">
@@ -2697,6 +2802,7 @@
       <span class="admin-bar-hint">Κάνε κλικ σε οποιοδήποτε κείμενο για επεξεργασία</span>
     </div>
     <div class="admin-bar-right">
+      <button class="admin-btn" onclick="openCMS()" style="background:#6c5ce7;color:#fff;">📄 Σελίδες</button>
       <button class="admin-btn admin-btn-add-photo" onclick="document.getElementById('adminPhotoInput').click()">📷 Προσθήκη Φωτογραφίας</button>
       <input type="file" id="adminPhotoInput" accept="image/*" multiple style="display:none" onchange="adminAddPhotos(this)"/>
       <button class="admin-btn admin-btn-save" onclick="adminSave()">💾 Αποθήκευση</button>
@@ -3071,7 +3177,264 @@
       loadAnnouncements();
       loadGalleryFromAPI();
       loadHomeAnnouncements();
+      loadCMSPages(); // Load dynamic pages on startup
     });
+
+
+
+    /* ════════════════════════════════
+       CMS - PAGE MANAGER
+    ════════════════════════════════ */
+    let cmsPages = [];
+    let cmsCurrentPage = null;
+    let cmsCurrentImage = null;
+
+    function openCMS() {
+      document.getElementById('cmsOverlay').classList.add('open');
+      loadCMSPages();
+    }
+
+    function closeCMS() {
+      document.getElementById('cmsOverlay').classList.remove('open');
+    }
+
+    async function loadCMSPages() {
+      try {
+        const res = await fetch(API_URL + '/api/pages');
+        cmsPages = await res.json();
+        renderCMSTree();
+        renderDynamicNav();
+      } catch(e) {
+        console.error('CMS load error:', e);
+      }
+    }
+
+    function renderCMSTree() {
+      const list = document.getElementById('cmsTreeList');
+      list.innerHTML = '';
+      const roots = cmsPages.filter(p => !p.parent_id);
+      if (!roots.length) {
+        list.innerHTML = '<li style="padding:1rem;color:var(--muted);font-size:0.8rem;">Δεν υπάρχουν σελίδες ακόμα.</li>';
+        return;
+      }
+      roots.forEach(page => {
+        const li = document.createElement('li');
+        li.className = 'cms-tree-item' + (cmsCurrentPage?.id === page.id ? ' active' : '');
+        li.innerHTML = `<span onclick="editCMSPage(${page.id})">📄 ${page.title}</span>
+          <div style="display:flex;gap:4px;">
+            <button class="cms-tb-btn cms-del-btn" onclick="event.stopPropagation();addSubPage(${page.id})" style="opacity:1;color:var(--green);font-size:0.65rem;">+sub</button>
+            <button class="cms-del-btn" onclick="event.stopPropagation();deleteCMSPage(${page.id})">✕</button>
+          </div>`;
+        list.appendChild(li);
+        // Children
+        const children = cmsPages.filter(p => p.parent_id === page.id);
+        children.forEach(child => {
+          const cli = document.createElement('li');
+          cli.className = 'cms-tree-item cms-tree-child' + (cmsCurrentPage?.id === child.id ? ' active' : '');
+          cli.innerHTML = `<span onclick="editCMSPage(${child.id})">└ ${child.title}</span>
+            <div style="display:flex;gap:4px;">
+              <button class="cms-tb-btn cms-del-btn" onclick="event.stopPropagation();addSubPage(${child.id})" style="opacity:1;color:var(--green);font-size:0.65rem;">+sub</button>
+              <button class="cms-del-btn" onclick="event.stopPropagation();deleteCMSPage(${child.id})">✕</button>
+            </div>`;
+          list.appendChild(cli);
+          // Grandchildren
+          const grandchildren = cmsPages.filter(p => p.parent_id === child.id);
+          grandchildren.forEach(gc => {
+            const gli = document.createElement('li');
+            gli.className = 'cms-tree-item cms-tree-grandchild' + (cmsCurrentPage?.id === gc.id ? ' active' : '');
+            gli.innerHTML = `<span onclick="editCMSPage(${gc.id})">└ ${gc.title}</span>
+              <button class="cms-del-btn" onclick="event.stopPropagation();deleteCMSPage(${gc.id})">✕</button>`;
+            list.appendChild(gli);
+          });
+        });
+      });
+    }
+
+    async function editCMSPage(id) {
+      try {
+        const res = await fetch(API_URL + '/api/pages/' + cmsPages.find(p => p.id === id)?.slug);
+        cmsCurrentPage = await res.json();
+        cmsCurrentImage = cmsCurrentPage.image || null;
+        const editor = document.getElementById('cmsEditor');
+        const parentOptions = cmsPages.filter(p => p.id !== id).map(p => `<option value="${p.id}" ${cmsCurrentPage.parent_id === p.id ? 'selected' : ''}>${p.title}</option>`).join('');
+        editor.innerHTML = `
+          <div class="cms-editor-header">✏️ Επεξεργασία: ${cmsCurrentPage.title}</div>
+          <div class="cms-field">
+            <label>Τίτλος σελίδας</label>
+            <input type="text" id="cmsTitle" value="${cmsCurrentPage.title}"/>
+          </div>
+          <div class="cms-field">
+            <label>Γονική σελίδα (προαιρετικό)</label>
+            <select id="cmsParent">
+              <option value="">— Κύρια σελίδα —</option>
+              ${parentOptions}
+            </select>
+          </div>
+          <div class="cms-field">
+            <label>Περιεχόμενο</label>
+            <div class="cms-toolbar">
+              <button class="cms-tb-btn" onclick="cmsFormat('bold')"><b>B</b></button>
+              <button class="cms-tb-btn" onclick="cmsFormat('italic')"><i>I</i></button>
+              <button class="cms-tb-btn" onclick="cmsFormat('insertUnorderedList')">• Λίστα</button>
+              <button class="cms-tb-btn" onclick="cmsFormat('formatBlock','h3')">Τίτλος</button>
+              <button class="cms-tb-btn" onclick="cmsFormat('formatBlock','p')">Κανονικό</button>
+            </div>
+            <div class="cms-content-editor" id="cmsContent" contenteditable="true">${cmsCurrentPage.content || ''}</div>
+          </div>
+          <div class="cms-field">
+            <label>Φωτογραφία</label>
+            <input type="file" accept="image/*" onchange="previewCMSImg(this)"/>
+            <img id="cmsImgPreview" src="${cmsCurrentPage.image || ''}" class="cms-img-preview" style="display:${cmsCurrentPage.image ? 'block' : 'none'}"/>
+          </div>
+        `;
+        document.getElementById('cmsSaveBtn').style.display = 'block';
+        renderCMSTree();
+      } catch(e) { console.error(e); }
+    }
+
+    function showNewPageForm(parentId) {
+      cmsCurrentPage = null;
+      cmsCurrentImage = null;
+      const editor = document.getElementById('cmsEditor');
+      const parentOptions = cmsPages.map(p => `<option value="${p.id}" ${parentId === p.id ? 'selected' : ''}>${p.title}</option>`).join('');
+      editor.innerHTML = `
+        <div class="cms-editor-header">➕ Νέα Σελίδα</div>
+        <div class="cms-field">
+          <label>Τίτλος σελίδας *</label>
+          <input type="text" id="cmsTitle" placeholder="π.χ. Νέα Υπηρεσία"/>
+        </div>
+        <div class="cms-field">
+          <label>Γονική σελίδα (προαιρετικό)</label>
+          <select id="cmsParent">
+            <option value="">— Κύρια σελίδα —</option>
+            ${parentOptions}
+          </select>
+        </div>
+        <div class="cms-field">
+          <label>Περιεχόμενο</label>
+          <div class="cms-toolbar">
+            <button class="cms-tb-btn" onclick="cmsFormat('bold')"><b>B</b></button>
+            <button class="cms-tb-btn" onclick="cmsFormat('italic')"><i>I</i></button>
+            <button class="cms-tb-btn" onclick="cmsFormat('insertUnorderedList')">• Λίστα</button>
+            <button class="cms-tb-btn" onclick="cmsFormat('formatBlock','h3')">Τίτλος</button>
+            <button class="cms-tb-btn" onclick="cmsFormat('formatBlock','p')">Κανονικό</button>
+          </div>
+          <div class="cms-content-editor" id="cmsContent" contenteditable="true"></div>
+        </div>
+        <div class="cms-field">
+          <label>Φωτογραφία (προαιρετικό)</label>
+          <input type="file" accept="image/*" onchange="previewCMSImg(this)"/>
+          <img id="cmsImgPreview" class="cms-img-preview"/>
+        </div>
+      `;
+      document.getElementById('cmsSaveBtn').style.display = 'block';
+    }
+
+    function addSubPage(parentId) {
+      showNewPageForm(parentId);
+    }
+
+    function previewCMSImg(input) {
+      const file = input.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        cmsCurrentImage = e.target.result;
+        const prev = document.getElementById('cmsImgPreview');
+        if (prev) { prev.src = cmsCurrentImage; prev.style.display = 'block'; }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function cmsFormat(cmd, val) {
+      document.getElementById('cmsContent').focus();
+      document.execCommand(cmd, false, val || null);
+    }
+
+    function slugify(text) {
+      return text.toLowerCase().trim()
+        .replace(/[αά]/g,'a').replace(/[εέ]/g,'e').replace(/[ηή]/g,'i')
+        .replace(/[ιί]/g,'i').replace(/[οό]/g,'o').replace(/[υύ]/g,'u')
+        .replace(/[ωώ]/g,'o').replace(/[θ]/g,'th').replace(/[χ]/g,'ch')
+        .replace(/[ξ]/g,'x').replace(/[ψ]/g,'ps').replace(/[σς]/g,'s')
+        .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    }
+
+    async function saveCMSPage() {
+      const title = document.getElementById('cmsTitle')?.value.trim();
+      const content = document.getElementById('cmsContent')?.innerHTML || '';
+      const parentId = document.getElementById('cmsParent')?.value || null;
+      if (!title) { alert('Βάλε τίτλο!'); return; }
+      const btn = document.getElementById('cmsSaveBtn');
+      btn.textContent = 'Αποθήκευση...'; btn.disabled = true;
+      try {
+        if (cmsCurrentPage) {
+          // Update existing
+          await fetch(API_URL + '/api/pages/' + cmsCurrentPage.id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
+            body: JSON.stringify({ title, content, image: cmsCurrentImage, parent_id: parentId || null })
+          });
+        } else {
+          // Create new
+          const slug = slugify(title) + '-' + Date.now();
+          await fetch(API_URL + '/api/pages', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
+            body: JSON.stringify({ title, slug, content, image: cmsCurrentImage, parent_id: parentId || null })
+          });
+        }
+        await loadCMSPages();
+        const toast = document.getElementById('saveToast');
+        toast.textContent = '✅ Σελίδα αποθηκεύτηκε!';
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); toast.textContent = '✅ Αποθηκεύτηκε!'; }, 2500);
+      } catch(e) { alert('Σφάλμα: ' + e.message); }
+      btn.textContent = '💾 Αποθήκευση'; btn.disabled = false;
+    }
+
+    async function deleteCMSPage(id) {
+      if (!confirm('Διαγραφή σελίδας; Θα διαγραφούν και οι υποσελίδες της!')) return;
+      try {
+        await fetch(API_URL + '/api/pages/' + id, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + adminToken }
+        });
+        cmsCurrentPage = null;
+        document.getElementById('cmsEditor').innerHTML = '<div class="cms-editor-header">Επιλέξτε σελίδα</div>';
+        document.getElementById('cmsSaveBtn').style.display = 'none';
+        await loadCMSPages();
+      } catch(e) { alert('Σφάλμα: ' + e.message); }
+    }
+
+    // Render dynamic pages in nav and as SPA pages
+    function renderDynamicNav() {
+      // Remove old dynamic pages from DOM
+      document.querySelectorAll('.dynamic-page').forEach(el => el.remove());
+      // Add new pages as SPA pages
+      cmsPages.forEach(page => {
+        const div = document.createElement('div');
+        div.className = 'page dynamic-page';
+        div.id = 'page-cms-' + page.slug;
+        div.innerHTML = `
+          <div class="page-inner">
+            <div class="page-breadcrumb">
+              <span onclick="navigate('home')">Αρχική</span>
+              ${page.parent_id ? ` › <span onclick="navigate('cms-${cmsPages.find(p=>p.id===page.parent_id)?.slug}')">${cmsPages.find(p=>p.id===page.parent_id)?.title}</span>` : ''}
+              › <span>${page.title}</span>
+            </div>
+            <div class="page-header">
+              <h2 class="section-title">${page.title}</h2>
+            </div>
+            ${page.image ? `<img src="${page.image}" style="width:100%;max-height:300px;object-fit:cover;border-radius:8px;margin-bottom:1.5rem;"/>` : ''}
+            <div class="subpage-content">${page.content || ''}</div>
+          </div>
+          <footer style="margin:0 2rem;">© 2025 <span>A.C. Pella</span> · Αγροτικός Συνεταιρισμός Πέλλας</footer>
+        `;
+        document.body.insertBefore(div, document.getElementById('lightbox'));
+      });
+      // Update pages array in router
+      window.dynamicPageSlugs = cmsPages.map(p => 'cms-' + p.slug);
+    }
 
 
     /* ════════════════════════════════
@@ -3123,6 +3486,13 @@
       'pist','gallery','ann','contact'];
 
     function navigate(id) {
+      // Check if dynamic page
+      if (id.startsWith('cms-')) {
+        const allPages = [...pages, ...(window.dynamicPageSlugs || [])];
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById('page-' + id);
+        if (target) { target.classList.add('active'); window.scrollTo(0,0); return; }
+      }
       pages.forEach(p => {
         document.getElementById('page-' + p).classList.remove('active');
         const navEl = document.getElementById('nav-' + p);
