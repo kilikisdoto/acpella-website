@@ -2769,26 +2769,33 @@
       try {
         const res = await fetch(API_URL + '/api/announcements');
         const anns = await res.json();
-        const container = document.getElementById('annContainer');
-        if (!container || !anns.length) return;
+        const container = document.getElementById('annList') || document.getElementById('annContainer');
+        if (!container) return;
         container.innerHTML = '';
+        if (!anns.length) {
+          container.innerHTML = '<div class="ann-empty" id="annEmpty">Δεν υπάρχουν ανακοινώσεις ακόμα.</div>';
+          return;
+        }
         anns.forEach(ann => {
           const card = document.createElement('div');
           card.className = 'ann-card';
           card.dataset.id = ann.id;
+          const dateFormatted = new Date(ann.date).toLocaleDateString('el-GR', { day:'numeric', month:'long', year:'numeric' });
           card.innerHTML = `
-            <div class="ann-card-header">
-              <div>
-                <div class="ann-title">${ann.title}</div>
-                <div class="ann-date">${ann.date}</div>
-              </div>
-              <button class="ann-delete admin-only" onclick="deleteAnnouncement(${ann.id})" style="display:none;">✕</button>
-            </div>
+            <div class="ann-date">${dateFormatted}</div>
+            <div class="ann-title">${ann.title}</div>
             <div class="ann-body">${ann.body || ''}</div>
+            <button class="btn-del-ann admin-only" onclick="deleteAnnouncement(${ann.id})" style="display:none;">✕</button>
           `;
           container.appendChild(card);
         });
-      } catch(e) {}
+        // Show delete buttons if admin
+        if (isAdmin) {
+          container.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+        }
+      } catch(e) {
+        console.error('loadAnnouncements error:', e);
+      }
     }
 
     async function deleteAnnouncement(id) {
@@ -3076,21 +3083,28 @@
        4. ΑΝΑΚΟΙΝΩΣΕΙΣ
     ════════════════════════════════ */
     let annCount = 0;
-    function addAnnouncement() {
-      const list = document.getElementById('annList');
-      const empty = document.getElementById('annEmpty');
-      if (empty) empty.remove();
-      const today = new Date().toLocaleDateString('el-GR', { day:'numeric', month:'long', year:'numeric' });
-      const id = ++annCount;
-      const card = document.createElement('div');
-      card.className = 'ann-card'; card.id = `ann-${id}`;
-      card.innerHTML = `
-        <div class="ann-date">${today}</div>
-        <input class="ann-title" placeholder="Τίτλος ανακοίνωσης…"/>
-        <textarea class="ann-body" placeholder="Κείμενο ανακοίνωσης…" rows="3" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-        <button class="btn-del-ann" onclick="deleteAnn(${id})">✕</button>`;
-      list.appendChild(card);
-      card.querySelector('.ann-title').focus();
+    async function addAnnouncement() {
+      const title = prompt('Τίτλος ανακοίνωσης:');
+      if (!title) return;
+      const body = prompt('Κείμενο ανακοίνωσης:') || '';
+      const today = new Date().toISOString().split('T')[0];
+      try {
+        const res = await fetch(API_URL + '/api/announcements', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + adminToken
+          },
+          body: JSON.stringify({ title, body, date: today })
+        });
+        const ann = await res.json();
+        if (ann.id) {
+          await loadAnnouncements();
+          alert('✅ Η ανακοίνωση αποθηκεύτηκε!');
+        }
+      } catch(e) {
+        alert('❌ Σφάλμα: ' + e.message);
+      }
     }
     function deleteAnn(id) {
       const c = document.getElementById(`ann-${id}`); if (c) c.remove();
