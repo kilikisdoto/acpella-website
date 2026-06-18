@@ -451,10 +451,11 @@
 
     /* Show subdropdown admin controls on hover */
     body.admin-mode .nav-subdropdown > div:hover .sub-admin-ctrl { display: flex !important; }
+    body.admin-mode .nav-dropdown-item div:hover .sub-admin-ctrl { display: flex !important; }
     body.admin-mode .egk-overview-links li:hover .egk-link-ctrl { display: flex !important; }
     body.admin-mode .egk-admin-ctrl { display: flex !important; }
     body.admin-mode .nav-link-wrap.has-dropdown:hover .nav-dropdown.admin-only { display: block !important; }
-    body.admin-mode .nav-dropdown-item .admin-only { display: block !important; }
+    body.admin-mode .nav-link-wrap.has-dropdown:hover .nav-dropdown .admin-only { display: block !important; }
     body.admin-mode #dropdown-pist, body.admin-mode #dropdown-gallery,
     body.admin-mode #dropdown-ann, body.admin-mode #dropdown-contact { min-width: 200px; }
 
@@ -1300,7 +1301,13 @@
           <a id="nav-egk" data-el="Εγκαταστάσεις" data-en="Facilities" onclick="navigate('egk')" style="cursor:pointer;" data-ck="ck174" data-editable="true" contenteditable="false">Εγκαταστάσεις</a>
           <div class="nav-dropdown">
             <div class="nav-dropdown-item has-sub">
-              <a onclick="navigate('egk-konservo')" data-el="Κονσερβοποιείο" data-en="Cannery" data-ck="ck175" data-editable="true" contenteditable="false">Κονσερβοποιείο</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+              <a onclick="navigate('egk-konservo')" data-el="Κονσερβοποιείο" data-en="">Κονσερβοποιείο</a>
+              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
+                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-konservo',event)">✏️</button>
+                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-konservo',event)">✕</button>
+              </div>
+            </div>
               <div class="nav-subdropdown">
                 <a onclick="navigate('egk-konservo-genika')" data-el="Γενικά" data-en="General" data-ck="ck176" data-editable="true" contenteditable="false">Γενικά</a>
                 <a onclick="navigate('egk-konservo-istoria')" data-el="Ιστορία" data-en="History" data-ck="ck177" data-editable="true" contenteditable="false">Ιστορία</a>
@@ -1309,33 +1316,65 @@
                 <a onclick="navigate('egk-konservo-frouta')" data-el="Φρούτα προς κονσερβοποίηση" data-en="Fruits for Canning" data-ck="ck180" data-editable="true" contenteditable="false">Φρούτα προς κονσερβοποίηση</a>
                 <a onclick="navigate('egk-konservo-texnikes')" data-el="Τεχνικές Προδιαγραφές" data-en="Technical Specs" data-ck="ck181" data-editable="true" contenteditable="false">Τεχνικές Προδιαγραφές</a>
                 <a onclick="navigate('egk-konservo-etiketes')" data-el="Οι ετικέτες μας" data-en="Our Labels" data-ck="ck182" data-editable="true" contenteditable="false">Οι ετικέτες μας</a>
+              
+                <a class="admin-only" onclick="addSubpageToDropdown('egk-konservo',event)" style="display:none;color:#9DD49B;font-weight:600;font-size:0.75rem;padding:0.5rem 1.2rem;display:none;">➕ Νέα υποσελίδα</a>
               </div>
             </div>
             <div class="nav-dropdown-item has-sub">
-              <a onclick="navigate('egk-ekko')" data-el="Εκκοκιστήριο" data-en="Ginning Mill" data-ck="ck183" data-editable="true" contenteditable="false">Εκκοκιστήριο</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+              <a onclick="navigate('egk-ekko')" data-el="Εκκοκιστήριο" data-en="">Εκκοκιστήριο</a>
+              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
+                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-ekko',event)">✏️</button>
+                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-ekko',event)">✕</button>
+              </div>
+            </div>
               <div class="nav-subdropdown">
                 <a onclick="navigate('egk-ekko-genika')" data-el="Γενικά" data-en="General" data-ck="ck184" data-editable="true" contenteditable="false">Γενικά</a>
                 <a onclick="navigate('egk-ekko-skopos')" data-el="Σκοπός και όραμα" data-en="Purpose & Vision" data-ck="ck185" data-editable="true" contenteditable="false">Σκοπός και όραμα</a>
                 <a onclick="navigate('egk-ekko-paragogi')" data-el="Παραγωγική Διαδικασία" data-en="Production Process" data-ck="ck186" data-editable="true" contenteditable="false">Παραγωγική Διαδικασία</a>
                 <a onclick="navigate('egk-ekko-dynamikotita')" data-el="Δυναμικότητα" data-en="Capacity" data-ck="ck187" data-editable="true" contenteditable="false">Δυναμικότητα</a>
                 <a onclick="navigate('egk-ekko-poiotita')" data-el="Ποιότητα" data-en="Quality" data-ck="ck188" data-editable="true" contenteditable="false">Ποιότητα</a>
+              
+                <a class="admin-only" onclick="addSubpageToDropdown('egk-ekko',event)" style="display:none;color:#9DD49B;font-weight:600;font-size:0.75rem;padding:0.5rem 1.2rem;display:none;">➕ Νέα υποσελίδα</a>
               </div>
             </div>
             <div class="nav-dropdown-item has-sub">
-              <a onclick="navigate('egk-dialogi')" data-el="Διαλογητήριο – Ψυγεία" data-en="Sorting – Cold Storage" data-ck="ck189" data-editable="true" contenteditable="false">Διαλογητήριο – Ψυγεία</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+              <a onclick="navigate('egk-dialogi')" data-el="Διαλογητήριο – Ψυγεία" data-en="">Διαλογητήριο – Ψυγεία</a>
+              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
+                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-dialogi',event)">✏️</button>
+                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-dialogi',event)">✕</button>
+              </div>
+            </div>
               <div class="nav-subdropdown">
                 <a onclick="navigate('egk-dialogi-genika')" data-el="Γενικά" data-en="General" data-ck="ck190" data-editable="true" contenteditable="false">Γενικά</a>
                 <a onclick="navigate('egk-dialogi-poiotita')" data-el="Ποιότητα" data-en="Quality" data-ck="ck191" data-editable="true" contenteditable="false">Ποιότητα</a>
+              
+                <a class="admin-only" onclick="addSubpageToDropdown('egk-dialogi',event)" style="display:none;color:#9DD49B;font-weight:600;font-size:0.75rem;padding:0.5rem 1.2rem;display:none;">➕ Νέα υποσελίδα</a>
               </div>
             </div>
             <div class="nav-dropdown-item has-sub">
-              <a onclick="navigate('egk-kentro')" data-el="Κέντρο Εξυπηρέτησης Αγροτών" data-en="Farmers Service Centre" data-ck="ck192" data-editable="true" contenteditable="false">Κέντρο Εξυπηρέτησης Αγροτών</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+              <a onclick="navigate('egk-kentro')" data-el="Κέντρο Εξυπηρέτησης Αγροτών" data-en="">Κέντρο Εξυπηρέτησης Αγροτών</a>
+              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
+                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-kentro',event)">✏️</button>
+                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-kentro',event)">✕</button>
+              </div>
+            </div>
               <div class="nav-subdropdown">
                 <a onclick="navigate('egk-kentro-ypiresies')" data-el="Υπηρεσίες" data-en="Services" data-ck="ck193" data-editable="true" contenteditable="false">Υπηρεσίες</a>
+              
+                <a class="admin-only" onclick="addSubpageToDropdown('egk-kentro',event)" style="display:none;color:#9DD49B;font-weight:600;font-size:0.75rem;padding:0.5rem 1.2rem;display:none;">➕ Νέα υποσελίδα</a>
               </div>
             </div>
             <div class="nav-dropdown-item">
-              <a onclick="navigate('egk-dimitriaka')" data-el="Δημητριακά – Ζωοτροφές" data-en="Cereals – Livestock Feed" data-ck="ck194" data-editable="true" contenteditable="false">Δημητριακά – Ζωοτροφές</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+              <a onclick="navigate('egk-dimitriaka')" data-el="Δημητριακά – Ζωοτροφές" data-en="">Δημητριακά – Ζωοτροφές</a>
+              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
+                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-dimitriaka',event)">✏️</button>
+                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-dimitriaka',event)">✕</button>
+              </div>
+            </div>
             </div>
           </div>
         <div class="nav-admin-ctrl">
@@ -3589,6 +3628,40 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
         body: JSON.stringify({ title, slug, content: '', parent_id: null })
+      }).then(() => loadCMSPages());
+    }
+
+    function addSubpageToDropdown(parentCat, e) {
+      e.stopPropagation();
+      const title = prompt('Τίτλος νέας υποσελίδας:');
+      if (!title) return;
+      const slug = parentCat + '-new-' + Date.now();
+      // Add to subdropdown in nav
+      const subdropdown = e.target.closest('.nav-subdropdown');
+      if (subdropdown) {
+        const newA = document.createElement('a');
+        newA.textContent = title;
+        newA.onclick = () => navigate('cms-' + slug);
+        subdropdown.insertBefore(newA, e.target);
+      }
+      // Add to egk overview
+      const overviewUl = document.querySelector('#page-egk .egk-overview-card:has([onclick*="' + parentCat + '"]) .egk-overview-links');
+      if (overviewUl) {
+        const addLi = overviewUl.querySelector('.admin-only');
+        const newLi = document.createElement('li');
+        newLi.style.cssText = 'display:flex;align-items:center;justify-content:space-between;';
+        newLi.innerHTML = `<a onclick="navigate('cms-${slug}')">${title}</a>
+          <div class="egk-link-ctrl" style="display:flex;gap:2px;margin-left:4px;">
+            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('cms-${slug}',event)">✏️</button>
+            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('cms-${slug}',event)">✕</button>
+          </div>`;
+        overviewUl.insertBefore(newLi, addLi);
+      }
+      // Save page
+      fetch(API_URL + '/api/pages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
+        body: JSON.stringify({ title, slug: 'cms-' + slug, content: '', parent_id: null })
       }).then(() => loadCMSPages());
     }
 
