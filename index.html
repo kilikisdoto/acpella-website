@@ -881,6 +881,40 @@
     .gallery-tag:hover { border-color: var(--green); color: var(--green); }
     .active-tag { background: var(--green); color: #fff !important; border-color: var(--green); }
 
+    /* ── HOME ANNOUNCEMENTS ── */
+    .home-ann-section {
+      background: var(--white); padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .home-ann-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; margin-bottom: 1.5rem;
+    }
+    .home-ann-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+      font-weight: 600; color: var(--ink);
+    }
+    .home-ann-all {
+      font-size: 0.82rem; color: var(--green); font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: opacity 0.15s;
+    }
+    .home-ann-all:hover { opacity: 0.7; }
+    .home-ann-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+    .home-ann-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+      transition: box-shadow 0.2s, border-color 0.2s; cursor: pointer;
+    }
+    .home-ann-card:hover { box-shadow: 0 4px 16px rgba(58,125,68,0.12); border-color: var(--green); }
+    .home-ann-card-img { width: 100%; height: 160px; object-fit: cover; display: block; }
+    .home-ann-card-body { padding: 1rem; }
+    .home-ann-card-date { font-size: 0.68rem; color: var(--green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+    .home-ann-card-title { font-size: 0.92rem; font-weight: 600; color: var(--ink); line-height: 1.4; margin-bottom: 0.5rem; }
+    .home-ann-card-excerpt { font-size: 0.78rem; color: var(--muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .home-ann-empty { grid-column: 1/-1; text-align: center; color: var(--muted); font-size: 0.88rem; padding: 2rem; }
+    @media (max-width: 768px) { .home-ann-grid { grid-template-columns: 1fr; } }
+
     /* ── NEWSLETTER ── */
     .newsletter {
       background: var(--green);
@@ -1276,6 +1310,24 @@
           </div>
         </div>
       </div>
+
+      <!-- Τελευταίες Ανακοινώσεις -->
+      <div class="home-ann-section">
+        <div class="home-ann-header">
+          <div>
+            <p class="section-label" data-el="Νέα & Ενημερώσεις" data-en="News & Updates">Νέα & Ενημερώσεις</p>
+            <h2 class="home-ann-title" data-el="Τελευταίες Ανακοινώσεις" data-en="Latest Announcements">Τελευταίες Ανακοινώσεις</h2>
+          </div>
+          <a class="home-ann-all" onclick="navigate('ann')" data-el="Δείτε όλες →" data-en="View all →">Δείτε όλες →</a>
+        </div>
+        <div class="home-ann-grid" id="homeAnnGrid">
+          <div class="home-ann-empty" data-el="Δεν υπάρχουν ανακοινώσεις ακόμα." data-en="No announcements yet.">Δεν υπάρχουν ανακοινώσεις ακόμα.</div>
+        </div>
+        <div style="text-align:center;margin-top:1.5rem;">
+          <button class="btn-outline" onclick="navigate('ann')" data-el="Δείτε όλες τις ανακοινώσεις" data-en="View all announcements">Δείτε όλες τις ανακοινώσεις</button>
+        </div>
+      </div>
+
       <div class="newsletter">
         <div class="newsletter-inner">
           <div class="newsletter-text">
@@ -2961,11 +3013,43 @@
       } catch(e) {}
     }
 
+    // Load latest 3 announcements for home page
+    async function loadHomeAnnouncements() {
+      try {
+        const res = await fetch(API_URL + '/api/announcements');
+        const anns = await res.json();
+        const grid = document.getElementById('homeAnnGrid');
+        if (!grid) return;
+        if (!anns.length) {
+          grid.innerHTML = '<div class="home-ann-empty">Δεν υπάρχουν ανακοινώσεις ακόμα.</div>';
+          return;
+        }
+        const latest = anns.slice(0, 3);
+        grid.innerHTML = '';
+        latest.forEach(ann => {
+          const dateFormatted = new Date(ann.date).toLocaleDateString('el-GR', { day:'numeric', month:'long', year:'numeric' });
+          const card = document.createElement('div');
+          card.className = 'home-ann-card';
+          card.onclick = () => navigate('ann');
+          card.innerHTML = `
+            ${ann.image ? `<img class="home-ann-card-img" src="${ann.image}" alt="${ann.title}"/>` : ''}
+            <div class="home-ann-card-body">
+              <div class="home-ann-card-date">${dateFormatted}</div>
+              <div class="home-ann-card-title">${ann.title}</div>
+              ${ann.body ? `<div class="home-ann-card-excerpt">${ann.body}</div>` : ''}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch(e) {}
+    }
+
     // Init on load
     document.addEventListener('DOMContentLoaded', () => {
       loadContentFromAPI();
       loadAnnouncements();
       loadGalleryFromAPI();
+      loadHomeAnnouncements();
     });
 
 
