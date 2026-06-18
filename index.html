@@ -881,6 +881,21 @@
     .gallery-tag:hover { border-color: var(--green); color: var(--green); }
     .active-tag { background: var(--green); color: #fff !important; border-color: var(--green); }
 
+    .sidebar-ann-all {
+      display: block; font-size: 0.75rem; color: var(--green);
+      font-weight: 600; margin-top: 0.8rem; cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .sidebar-ann-all:hover { opacity: 0.7; }
+    .sidebar-ann-item {
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 0; cursor: pointer;
+    }
+    .sidebar-ann-item:last-child { border-bottom: none; }
+    .sidebar-ann-item:hover .sidebar-ann-title { color: var(--green); }
+    .sidebar-ann-date { font-size: 0.65rem; color: var(--green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+    .sidebar-ann-title { font-size: 0.78rem; color: var(--ink); line-height: 1.4; font-weight: 500; }
+
     /* ── HOME ANNOUNCEMENTS ── */
     .home-ann-section {
       background: var(--white); padding: 3rem 2rem;
@@ -1257,10 +1272,11 @@
             </ul>
           </div>
           <div class="sidebar-block">
-            <h3 class="sidebar-heading">Νέα</h3>
-            <ul class="sidebar-list sidebar-news">
-              <li><a onclick="navigate('ann')">Δείτε όλες τις ανακοινώσεις →</a></li>
-            </ul>
+            <h3 class="sidebar-heading" data-el="Τελευταίες Ανακοινώσεις" data-en="Latest News">Τελευταίες Ανακοινώσεις</h3>
+            <div id="sidebarAnnList">
+              <div style="font-size:0.78rem;color:var(--muted);">Φόρτωση...</div>
+            </div>
+            <a class="sidebar-ann-all" onclick="navigate('ann')" data-el="Δείτε όλες →" data-en="View all →">Δείτε όλες →</a>
           </div>
         </aside>
         <div class="home-text">
@@ -3013,20 +3029,42 @@
       } catch(e) {}
     }
 
-    // Load latest 3 announcements for home page
+    // Load latest 3 announcements for home page + sidebar
     async function loadHomeAnnouncements() {
       try {
         const res = await fetch(API_URL + '/api/announcements');
         const anns = await res.json();
+
+        // Fill sidebar (2 latest)
+        const sidebar = document.getElementById('sidebarAnnList');
+        if (sidebar) {
+          if (!anns.length) {
+            sidebar.innerHTML = '<div style="font-size:0.78rem;color:var(--muted);">Δεν υπάρχουν ανακοινώσεις ακόμα.</div>';
+          } else {
+            sidebar.innerHTML = '';
+            anns.slice(0, 2).forEach(ann => {
+              const dateFormatted = new Date(ann.date).toLocaleDateString('el-GR', { day:'numeric', month:'short', year:'numeric' });
+              const item = document.createElement('div');
+              item.className = 'sidebar-ann-item';
+              item.onclick = () => navigate('ann');
+              item.innerHTML = `
+                <div class="sidebar-ann-date">${dateFormatted}</div>
+                <div class="sidebar-ann-title">${ann.title}</div>
+              `;
+              sidebar.appendChild(item);
+            });
+          }
+        }
+
+        // Fill home grid (3 latest)
         const grid = document.getElementById('homeAnnGrid');
         if (!grid) return;
         if (!anns.length) {
           grid.innerHTML = '<div class="home-ann-empty">Δεν υπάρχουν ανακοινώσεις ακόμα.</div>';
           return;
         }
-        const latest = anns.slice(0, 3);
         grid.innerHTML = '';
-        latest.forEach(ann => {
+        anns.slice(0, 3).forEach(ann => {
           const dateFormatted = new Date(ann.date).toLocaleDateString('el-GR', { day:'numeric', month:'long', year:'numeric' });
           const card = document.createElement('div');
           card.className = 'home-ann-card';
