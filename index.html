@@ -459,6 +459,62 @@
     body.admin-mode #dropdown-pist, body.admin-mode #dropdown-gallery,
     body.admin-mode #dropdown-ann, body.admin-mode #dropdown-contact { min-width: 200px; }
 
+
+    /* ── NAV ADMIN CONTROLS ── */
+    .nav-item-row {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 4px;
+      padding: 0.75rem 1.2rem;
+    }
+    .nav-item-row > a {
+      color: var(--ink) !important; font-size: 0.78rem !important;
+      border: none !important; padding: 0 !important; flex: 1;
+      cursor: pointer;
+    }
+    .nav-item-row > a:hover { color: var(--green) !important; }
+    .has-sub .nav-item-row > a::after { content: " ›"; opacity: 0.6; }
+    .nav-item-ctrls {
+      display: none; gap: 2px; flex-shrink: 0;
+    }
+    body.admin-mode .nav-item-row:hover .nav-item-ctrls { display: flex; }
+    body.admin-mode .nav-sub-item:hover .nav-item-ctrls { display: flex; }
+
+    .nav-sub-item {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 4px;
+      padding: 0 4px;
+    }
+    .nav-sub-item > a {
+      display: block; padding: 0.7rem 1.2rem;
+      font-size: 0.78rem; color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      white-space: nowrap; cursor: pointer; flex: 1;
+      transition: background 0.15s;
+    }
+    .nav-sub-item > a:hover { background: rgba(255,255,255,0.15); }
+
+    .nav-sub-add {
+      padding: 0.5rem 1.2rem; border-top: 1px solid rgba(255,255,255,0.2);
+    }
+    .nav-sub-add > a {
+      color: #9DD49B; font-size: 0.75rem; font-weight: 600; cursor: pointer;
+    }
+    .nav-sub-add > a:hover { color: #fff; }
+
+    .nav-add-cat { border-top: 1px solid var(--border); margin-top: 4px; }
+    .nav-add-cat > a {
+      display: block; padding: 0.75rem 1.2rem;
+      font-size: 0.78rem; color: var(--green); font-weight: 600; cursor: pointer;
+    }
+
+    /* Dropdown for pist/gallery/ann/contact - show on hover */
+    .nav-link-wrap.has-dropdown:hover > .nav-dropdown { display: block; }
+    .nav-link-wrap.has-dropdown > .nav-dropdown:not(#dropdown-egk) { min-width: 200px; }
+    body:not(.admin-mode) .nav-sub-add { display: none !important; }
+    body:not(.admin-mode) .nav-add-cat { display: none !important; }
+    body:not(.admin-mode) .nav-item-ctrls { display: none !important; }
+    body:not(.admin-mode) .nav-admin-ctrl { display: none !important; }
+
     /* ── EDIT BAR ── */
     .edit-bar {
       position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 199;
@@ -1300,124 +1356,110 @@
         <li class="nav-link-wrap">
           <a id="nav-egk" data-el="Εγκαταστάσεις" data-en="Facilities" onclick="navigate('egk')" style="cursor:pointer;" data-ck="ck174" data-editable="true" contenteditable="false">Εγκαταστάσεις</a>
           <div class="nav-dropdown">
+            <!-- Κονσερβοποιείο -->
             <div class="nav-dropdown-item has-sub">
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-              <a onclick="navigate('egk-konservo')" data-el="Κονσερβοποιείο" data-en="">Κονσερβοποιείο</a>
-              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
-                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-konservo',event)">✏️</button>
-                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-konservo',event)">✕</button>
+              <div class="nav-item-row">
+                <a onclick="navigate('egk-konservo')">Κονσερβοποιείο</a>
+                <div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-konservo',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-konservo',event)">✕</button></div>
               </div>
-            </div>
               <div class="nav-subdropdown">
-                <a onclick="navigate('egk-konservo-genika')" data-el="Γενικά" data-en="General" data-ck="ck176" data-editable="true" contenteditable="false">Γενικά</a>
-                <a onclick="navigate('egk-konservo-istoria')" data-el="Ιστορία" data-en="History" data-ck="ck177" data-editable="true" contenteditable="false">Ιστορία</a>
-                <a onclick="navigate('egk-konservo-ygeia')" data-el="Υγεία και Ασφάλεια" data-en="Health & Safety" data-ck="ck178" data-editable="true" contenteditable="false">Υγεία και Ασφάλεια</a>
-                <a onclick="navigate('egk-konservo-perivallontiki')" data-el="Περιβαλλοντική Πολιτική" data-en="Environmental Policy" data-ck="ck179" data-editable="true" contenteditable="false">Περιβαλλοντική Πολιτική</a>
-                <a onclick="navigate('egk-konservo-frouta')" data-el="Φρούτα προς κονσερβοποίηση" data-en="Fruits for Canning" data-ck="ck180" data-editable="true" contenteditable="false">Φρούτα προς κονσερβοποίηση</a>
-                <a onclick="navigate('egk-konservo-texnikes')" data-el="Τεχνικές Προδιαγραφές" data-en="Technical Specs" data-ck="ck181" data-editable="true" contenteditable="false">Τεχνικές Προδιαγραφές</a>
-                <a onclick="navigate('egk-konservo-etiketes')" data-el="Οι ετικέτες μας" data-en="Our Labels" data-ck="ck182" data-editable="true" contenteditable="false">Οι ετικέτες μας</a>
-              
-                <a class="admin-only" onclick="addSubpageToDropdown('egk-konservo',event)" style="display:none;color:#9DD49B;font-weight:600;font-size:0.75rem;padding:0.5rem 1.2rem;display:none;">➕ Νέα υποσελίδα</a>
+                <div class="nav-sub-item"><a onclick="navigate('egk-konservo-genika')">Γενικά</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-genika',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-genika',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-konservo-istoria')">Ιστορία</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-istoria',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-istoria',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-konservo-ygeia')">Υγεία και Ασφάλεια</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-ygeia',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-ygeia',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-konservo-perivallontiki')">Περιβαλλοντική Πολιτική</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-perivallontiki',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-perivallontiki',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-konservo-frouta')">Φρούτα προς κονσερβοποίηση</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-frouta',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-frouta',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-konservo-texnikes')">Τεχνικές Προδιαγραφές</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-texnikes',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-texnikes',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-konservo-etiketes')">Οι ετικέτες μας</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-etiketes',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-etiketes',event)">✕</button></div></div>
+                <div class="nav-sub-add admin-only"><a onclick="addSubpageToDropdown('egk-konservo',event)">➕ Νέα υποσελίδα</a></div>
               </div>
             </div>
+            <!-- Εκκοκιστήριο -->
             <div class="nav-dropdown-item has-sub">
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-              <a onclick="navigate('egk-ekko')" data-el="Εκκοκιστήριο" data-en="">Εκκοκιστήριο</a>
-              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
-                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-ekko',event)">✏️</button>
-                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-ekko',event)">✕</button>
+              <div class="nav-item-row">
+                <a onclick="navigate('egk-ekko')">Εκκοκιστήριο</a>
+                <div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-ekko',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-ekko',event)">✕</button></div>
               </div>
-            </div>
               <div class="nav-subdropdown">
-                <a onclick="navigate('egk-ekko-genika')" data-el="Γενικά" data-en="General" data-ck="ck184" data-editable="true" contenteditable="false">Γενικά</a>
-                <a onclick="navigate('egk-ekko-skopos')" data-el="Σκοπός και όραμα" data-en="Purpose & Vision" data-ck="ck185" data-editable="true" contenteditable="false">Σκοπός και όραμα</a>
-                <a onclick="navigate('egk-ekko-paragogi')" data-el="Παραγωγική Διαδικασία" data-en="Production Process" data-ck="ck186" data-editable="true" contenteditable="false">Παραγωγική Διαδικασία</a>
-                <a onclick="navigate('egk-ekko-dynamikotita')" data-el="Δυναμικότητα" data-en="Capacity" data-ck="ck187" data-editable="true" contenteditable="false">Δυναμικότητα</a>
-                <a onclick="navigate('egk-ekko-poiotita')" data-el="Ποιότητα" data-en="Quality" data-ck="ck188" data-editable="true" contenteditable="false">Ποιότητα</a>
-              
-                <a class="admin-only" onclick="addSubpageToDropdown('egk-ekko',event)" style="display:none;color:#9DD49B;font-weight:600;font-size:0.75rem;padding:0.5rem 1.2rem;display:none;">➕ Νέα υποσελίδα</a>
+                <div class="nav-sub-item"><a onclick="navigate('egk-ekko-genika')">Γενικά</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-genika',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-genika',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-ekko-skopos')">Σκοπός και όραμα</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-skopos',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-skopos',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-ekko-paragogi')">Παραγωγική Διαδικασία</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-paragogi',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-paragogi',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-ekko-dynamikotita')">Δυναμικότητα</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-dynamikotita',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-dynamikotita',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-ekko-poiotita')">Ποιότητα</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-poiotita',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-poiotita',event)">✕</button></div></div>
+                <div class="nav-sub-add admin-only"><a onclick="addSubpageToDropdown('egk-ekko',event)">➕ Νέα υποσελίδα</a></div>
               </div>
             </div>
+            <!-- Διαλογητήριο -->
             <div class="nav-dropdown-item has-sub">
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-              <a onclick="navigate('egk-dialogi')" data-el="Διαλογητήριο – Ψυγεία" data-en="">Διαλογητήριο – Ψυγεία</a>
-              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
-                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-dialogi',event)">✏️</button>
-                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-dialogi',event)">✕</button>
+              <div class="nav-item-row">
+                <a onclick="navigate('egk-dialogi')">Διαλογητήριο – Ψυγεία</a>
+                <div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-dialogi',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-dialogi',event)">✕</button></div>
               </div>
-            </div>
               <div class="nav-subdropdown">
-                <a onclick="navigate('egk-dialogi-genika')" data-el="Γενικά" data-en="General" data-ck="ck190" data-editable="true" contenteditable="false">Γενικά</a>
-                <a onclick="navigate('egk-dialogi-poiotita')" data-el="Ποιότητα" data-en="Quality" data-ck="ck191" data-editable="true" contenteditable="false">Ποιότητα</a>
-              
-                <a class="admin-only" onclick="addSubpageToDropdown('egk-dialogi',event)" style="display:none;color:#9DD49B;font-weight:600;font-size:0.75rem;padding:0.5rem 1.2rem;display:none;">➕ Νέα υποσελίδα</a>
+                <div class="nav-sub-item"><a onclick="navigate('egk-dialogi-genika')">Γενικά</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-dialogi-genika',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-dialogi-genika',event)">✕</button></div></div>
+                <div class="nav-sub-item"><a onclick="navigate('egk-dialogi-poiotita')">Ποιότητα</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-dialogi-poiotita',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-dialogi-poiotita',event)">✕</button></div></div>
+                <div class="nav-sub-add admin-only"><a onclick="addSubpageToDropdown('egk-dialogi',event)">➕ Νέα υποσελίδα</a></div>
               </div>
             </div>
+            <!-- Κέντρο -->
             <div class="nav-dropdown-item has-sub">
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-              <a onclick="navigate('egk-kentro')" data-el="Κέντρο Εξυπηρέτησης Αγροτών" data-en="">Κέντρο Εξυπηρέτησης Αγροτών</a>
-              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
-                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-kentro',event)">✏️</button>
-                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-kentro',event)">✕</button>
+              <div class="nav-item-row">
+                <a onclick="navigate('egk-kentro')">Κέντρο Εξυπηρέτησης Αγροτών</a>
+                <div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-kentro',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-kentro',event)">✕</button></div>
               </div>
-            </div>
               <div class="nav-subdropdown">
-                <a onclick="navigate('egk-kentro-ypiresies')" data-el="Υπηρεσίες" data-en="Services" data-ck="ck193" data-editable="true" contenteditable="false">Υπηρεσίες</a>
-              
-                <a class="admin-only" onclick="addSubpageToDropdown('egk-kentro',event)" style="display:none;color:#9DD49B;font-weight:600;font-size:0.75rem;padding:0.5rem 1.2rem;display:none;">➕ Νέα υποσελίδα</a>
+                <div class="nav-sub-item"><a onclick="navigate('egk-kentro-ypiresies')">Υπηρεσίες</a><div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-kentro-ypiresies',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-kentro-ypiresies',event)">✕</button></div></div>
+                <div class="nav-sub-add admin-only"><a onclick="addSubpageToDropdown('egk-kentro',event)">➕ Νέα υποσελίδα</a></div>
               </div>
             </div>
+            <!-- Δημητριακά -->
             <div class="nav-dropdown-item">
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-              <a onclick="navigate('egk-dimitriaka')" data-el="Δημητριακά – Ζωοτροφές" data-en="">Δημητριακά – Ζωοτροφές</a>
-              <div class="sub-admin-ctrl" style="display:none;gap:2px;">
-                <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-dimitriaka',event)">✏️</button>
-                <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-dimitriaka',event)">✕</button>
+              <div class="nav-item-row">
+                <a onclick="navigate('egk-dimitriaka')">Δημητριακά – Ζωοτροφές</a>
+                <div class="nav-item-ctrls"><button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-dimitriaka',event)">✏️</button><button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-dimitriaka',event)">✕</button></div>
               </div>
             </div>
+            <!-- ➕ Νέα κατηγορία -->
+            <div class="nav-dropdown-item admin-only nav-add-cat">
+              <a onclick="addCategory()">➕ Νέα κατηγορία</a>
             </div>
           </div>
         <div class="nav-admin-ctrl">
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('egk',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('egk',event)">✕</button>
         </div></li>
-        <li class="nav-link-wrap"><a onclick="navigate('pist')"    id="nav-pist"    data-el="Πιστοποιητικά &amp; Διακρίσεις" data-en="Certifications" data-ck="ck195" data-editable="true" contenteditable="false">Πιστοποιητικά &amp; Διακρίσεις</a><div class="nav-admin-ctrl">
+        <li class="nav-link-wrap has-dropdown"><a onclick="navigate('pist')" id="nav-pist" data-el="Πιστοποιητικά &amp; Διακρίσεις" data-en="Certifications" data-ck="ck195" data-editable="true" contenteditable="false">Πιστοποιητικά &amp; Διακρίσεις</a>
+        <div class="nav-dropdown" id="dropdown-pist">
+          <div class="nav-sub-add admin-only"><a onclick="addSubpageToNav('pist',event)">➕ Νέα υποσελίδα</a></div>
+        </div>
+        <div class="nav-admin-ctrl">
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('pist',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('pist',event)">✕</button>
-        </div>
-        <div class="nav-dropdown admin-only" style="display:none;" id="dropdown-pist">
-          <div class="nav-dropdown-item admin-only" style="display:none;padding:0.5rem 1.2rem;">
-            <a onclick="addSubpageToNav('pist',event)" style="color:var(--green);font-weight:600;font-size:0.78rem;">➕ Νέα υποσελίδα</a>
-          </div>
         </div></li>
-        <li class="nav-link-wrap has-dropdown"><a onclick="navigate('gallery')" id="nav-gallery"  data-el="Photo Gallery"         data-en="Photo Gallery" data-ck="ck196" data-editable="true" contenteditable="false">Photo Gallery</a><div class="nav-admin-ctrl">
+        <li class="nav-link-wrap has-dropdown"><a onclick="navigate('gallery')" id="nav-gallery" data-el="Photo Gallery" data-en="Photo Gallery" data-ck="ck196" data-editable="true" contenteditable="false">Photo Gallery</a>
+        <div class="nav-dropdown" id="dropdown-gallery">
+          <div class="nav-sub-add admin-only"><a onclick="addSubpageToNav('gallery',event)">➕ Νέα υποσελίδα</a></div>
+        </div>
+        <div class="nav-admin-ctrl">
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('gallery',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('gallery',event)">✕</button>
-        </div>
-        <div class="nav-dropdown admin-only" style="display:none;" id="dropdown-gallery">
-          <div class="nav-dropdown-item admin-only" style="display:none;padding:0.5rem 1.2rem;">
-            <a onclick="addSubpageToNav('gallery',event)" style="color:var(--green);font-weight:600;font-size:0.78rem;">➕ Νέα υποσελίδα</a>
-          </div>
         </div></li>
-        <li class="nav-link-wrap"><a onclick="navigate('ann')"     id="nav-ann"     data-el="Ανακοινώσεις"           data-en="News" data-ck="ck197" data-editable="true" contenteditable="false">Ανακοινώσεις</a><div class="nav-admin-ctrl">
+        <li class="nav-link-wrap has-dropdown"><a onclick="navigate('ann')" id="nav-ann" data-el="Ανακοινώσεις" data-en="News" data-ck="ck197" data-editable="true" contenteditable="false">Ανακοινώσεις</a>
+        <div class="nav-dropdown" id="dropdown-ann">
+          <div class="nav-sub-add admin-only"><a onclick="addSubpageToNav('ann',event)">➕ Νέα υποσελίδα</a></div>
+        </div>
+        <div class="nav-admin-ctrl">
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('ann',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('ann',event)">✕</button>
-        </div>
-        <div class="nav-dropdown admin-only" style="display:none;" id="dropdown-ann">
-          <div class="nav-dropdown-item admin-only" style="display:none;padding:0.5rem 1.2rem;">
-            <a onclick="addSubpageToNav('ann',event)" style="color:var(--green);font-weight:600;font-size:0.78rem;">➕ Νέα υποσελίδα</a>
-          </div>
         </div></li>
-        <li class="nav-link-wrap has-dropdown"><a onclick="navigate('contact')" id="nav-contact" data-el="Επικοινωνία"            data-en="Contact" data-ck="ck198" data-editable="true" contenteditable="false">Επικοινωνία</a><div class="nav-admin-ctrl">
+        <li class="nav-link-wrap has-dropdown"><a onclick="navigate('contact')" id="nav-contact" data-el="Επικοινωνία" data-en="Contact" data-ck="ck198" data-editable="true" contenteditable="false">Επικοινωνία</a>
+        <div class="nav-dropdown" id="dropdown-contact">
+          <div class="nav-sub-add admin-only"><a onclick="addSubpageToNav('contact',event)">➕ Νέα υποσελίδα</a></div>
+        </div>
+        <div class="nav-admin-ctrl">
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('contact',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('contact',event)">✕</button>
-        </div>
-        <div class="nav-dropdown admin-only" style="display:none;" id="dropdown-contact">
-          <div class="nav-dropdown-item admin-only" style="display:none;padding:0.5rem 1.2rem;">
-            <a onclick="addSubpageToNav('contact',event)" style="color:var(--green);font-weight:600;font-size:0.78rem;">➕ Νέα υποσελίδα</a>
-          </div>
         </div></li>
-      </ul>
+            </ul>
       <!-- Language switcher -->
       <div class="lang-switcher">
         <button class="flag-btn active" id="btn-el" onclick="setLang('el')" title="Ελληνικά">
