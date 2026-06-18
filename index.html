@@ -234,6 +234,8 @@
     }
     /* Body padding when admin bar is shown */
     body.admin-mode { padding-bottom: 56px; }
+    body.admin-mode .admin-only { display: flex !important; }
+    body:not(.admin-mode) .admin-only { display: none !important; }
     /* Save indicator */
     #saveToast {
       position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%);
@@ -2306,20 +2308,20 @@
       <div class="cert-grid" id="certGrid">
         <div class="cert-card">
           <div class="cert-img-wrap"><span class="cert-ph">🏆</span></div>
-          <input class="cert-name" value="IFS Food"/>
-          <input class="cert-desc" value="Version 8 — International Featured Standard"/>
+          <input class="cert-name admin-field-input" readonly value="IFS Food"/>
+          <input class="cert-desc admin-field-input" readonly value="Version 8 — International Featured Standard"/>
           <div class="cert-year" contenteditable="false" data-editable="true">2024</div>
         </div>
         <div class="cert-card">
           <div class="cert-img-wrap"><span class="cert-ph">✅</span></div>
-          <input class="cert-name" value="FSSC 22000"/>
-          <input class="cert-desc" value="Food Safety Version 6"/>
+          <input class="cert-name admin-field-input" readonly value="FSSC 22000"/>
+          <input class="cert-desc admin-field-input" readonly value="Food Safety Version 6"/>
           <div class="cert-year" contenteditable="false" data-editable="true">2024</div>
         </div>
         <div class="cert-card">
           <div class="cert-img-wrap"><span class="cert-ph">🌍</span></div>
-          <input class="cert-name" value="EN ISO 22000"/>
-          <input class="cert-desc" value="Food Safety Management — 2018"/>
+          <input class="cert-name admin-field-input" readonly value="EN ISO 22000"/>
+          <input class="cert-desc admin-field-input" readonly value="Food Safety Management — 2018"/>
           <div class="cert-year" contenteditable="false" data-editable="true">2024</div>
         </div>
         <div class="cert-card" id="cert-add-card" style="cursor:pointer;border:1px dashed var(--border);background:var(--bg);" onclick="addCert()">
@@ -2348,7 +2350,7 @@
           <p class="section-label" data-el="Εικόνες" data-en="Images">Εικόνες</p>
           <h2 class="section-title">Photo Gallery</h2>
         </div>
-        <label class="btn-outline" style="cursor:pointer;">+ <span data-el="Προσθήκη" data-en="Add photo">Προσθήκη</span><input type="file" accept="image/*" multiple onchange="addToGallery(this)" style="display:none;"/></label>
+        <label class="btn-outline admin-only" style="cursor:pointer;display:none;">+ <span data-el="Προσθήκη" data-en="Add photo">Προσθήκη</span><input type="file" accept="image/*" multiple onchange="addToGallery(this)" style="display:none;"/></label>
       </div>
 
       <!-- Φίλτρα -->
@@ -2401,7 +2403,7 @@
   <!-- ΑΝΑΚΟΙΝΩΣΕΙΣ -->
   <div class="page" id="page-ann">
     <div class="page-inner">
-      <div class="ann-toolbar"><div><p class="section-label">Νέα &amp; Ενημερώσεις</p><h2 class="section-title">Ανακοινώσεις</h2></div><button class="btn-primary" onclick="addAnnouncement()">+ Νέα ανακοίνωση</button></div>
+      <div class="ann-toolbar"><div><p class="section-label" data-el="Νέα &amp; Ενημερώσεις" data-en="News &amp; Updates">Νέα &amp; Ενημερώσεις</p><h2 class="section-title" data-el="Ανακοινώσεις" data-en="Announcements">Ανακοινώσεις</h2></div><button class="btn-primary admin-only" onclick="addAnnouncement()" style="display:none;" data-el="+ Νέα ανακοίνωση" data-en="+ New announcement">+ Νέα ανακοίνωση</button></div>
       <div class="ann-list" id="annList"><div class="ann-empty" id="annEmpty">Δεν υπάρχουν ανακοινώσεις ακόμα.</div></div>
     </div>
     <footer style="margin:0 2rem;">© 2025 <span>A.C. Pella</span> · Αγροτικός Συνεταιρισμός Πέλλας</footer>
@@ -2587,8 +2589,16 @@
       isAdmin = true;
       document.body.classList.add('admin-mode');
       document.getElementById('adminBar').classList.add('active');
+      // Show admin-only elements
+      document.querySelectorAll('.admin-only').forEach(el => {
+        el.style.display = '';
+      });
+      // Unlock cert inputs
+      document.querySelectorAll('.admin-field-input').forEach(el => {
+        el.removeAttribute('readonly');
+      });
       // Make all contenteditable actually editable
-      document.querySelectorAll('[contenteditable]').forEach(el => {
+      document.querySelectorAll('[data-editable="true"]').forEach(el => {
         el.setAttribute('contenteditable', 'true');
       });
       // Make gallery cells replaceable on click (when admin)
@@ -2622,8 +2632,20 @@
       isAdmin = false;
       document.body.classList.remove('admin-mode');
       document.getElementById('adminBar').classList.remove('active');
+      // Hide admin-only elements
+      document.querySelectorAll('.admin-only').forEach(el => {
+        el.style.display = 'none';
+      });
+      // Lock cert inputs
+      document.querySelectorAll('.admin-field-input').forEach(el => {
+        el.setAttribute('readonly', true);
+      });
+      // Lock all contenteditable
+      document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+        el.setAttribute('contenteditable', 'false');
+      });
       // Remove admin hash
-      history.pushState('', document.title, window.location.pathname);
+      try { history.pushState('', document.title, window.location.pathname); } catch(e) {}
     }
 
     function adminSave() {
@@ -2839,8 +2861,8 @@
           <span class="cert-ph" id="cph-${id}">${c.icon}</span>
           <img id="cimg-${id}" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover"/>
         </div>
-        <input class="cert-name" value="${c.name}" placeholder="Όνομα…"/>
-        <input class="cert-desc" value="${c.desc}" placeholder="Περιγραφή…"/>
+        <input class="cert-name admin-field-input" readonly value="${c.name}" placeholder="Όνομα…"/>
+        <input class="cert-desc admin-field-input" readonly value="${c.desc}" placeholder="Περιγραφή…"/>
         <div class="cert-year" contenteditable="false" data-editable="true">${c.year}</div>
         <button class="btn-del-cert" onclick="deleteCert(${id})">✕</button>`;
       cgrid.appendChild(card);
