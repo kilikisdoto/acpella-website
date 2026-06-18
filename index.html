@@ -237,6 +237,75 @@
     body.admin-mode .admin-only { display: flex !important; }
     body:not(.admin-mode) .admin-only { display: none !important; }
     /* Save indicator */
+    /* ── ANNOUNCEMENT MODAL ── */
+    #annModal {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      background: rgba(0,0,0,0.6); align-items: center; justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+    #annModal.open { display: flex; }
+    .ann-modal-box {
+      background: #fff; border-radius: 12px;
+      width: 100%; max-width: 560px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .ann-modal-header {
+      background: var(--green); padding: 1.2rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ann-modal-header h3 {
+      color: #fff; font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 600;
+    }
+    .ann-modal-close {
+      background: none; border: none; color: rgba(255,255,255,0.8);
+      font-size: 1.3rem; cursor: pointer; line-height: 1;
+      transition: color 0.15s;
+    }
+    .ann-modal-close:hover { color: #fff; }
+    .ann-modal-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .ann-modal-field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .ann-modal-field label {
+      font-size: 0.68rem; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--muted); font-weight: 600;
+    }
+    .ann-modal-field input {
+      padding: 0.75rem 1rem; border: 1px solid var(--border);
+      border-radius: 6px; font-size: 0.95rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; color: var(--ink);
+      outline: none; transition: border-color 0.2s;
+    }
+    .ann-modal-field input:focus { border-color: var(--green); }
+    .ann-modal-field textarea {
+      padding: 0.85rem 1rem; border: 1px solid var(--border);
+      border-radius: 6px; font-size: 0.88rem; line-height: 1.7;
+      font-family: 'Inter', sans-serif; color: var(--ink);
+      outline: none; resize: vertical; min-height: 160px;
+      transition: border-color 0.2s;
+    }
+    .ann-modal-field textarea:focus { border-color: var(--green); }
+    .ann-modal-footer {
+      padding: 1rem 1.5rem; border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; gap: 0.7rem;
+      background: var(--bg);
+    }
+    .ann-modal-cancel {
+      padding: 0.6rem 1.2rem; border-radius: 6px;
+      border: 1px solid var(--border); background: #fff;
+      color: var(--muted); font-size: 0.85rem; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .ann-modal-submit {
+      padding: 0.6rem 1.4rem; border-radius: 6px;
+      border: none; background: var(--green);
+      color: #fff; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .ann-modal-submit:hover { background: #2d6336; }
+    .ann-modal-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
     #saveToast {
       position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%);
       background: var(--green); color: #fff; padding: 0.6rem 1.5rem;
@@ -2501,6 +2570,30 @@
 
 
 
+  <!-- ANNOUNCEMENT MODAL -->
+  <div id="annModal">
+    <div class="ann-modal-box">
+      <div class="ann-modal-header">
+        <h3>✉️ Νέα Ανακοίνωση</h3>
+        <button class="ann-modal-close" onclick="closeAnnModal()">✕</button>
+      </div>
+      <div class="ann-modal-body">
+        <div class="ann-modal-field">
+          <label>Θέμα / Τίτλος</label>
+          <input type="text" id="annModalTitle" placeholder="π.χ. Νέες τιμές για την καλοκαιρινή σεζόν"/>
+        </div>
+        <div class="ann-modal-field">
+          <label>Κείμενο ανακοίνωσης</label>
+          <textarea id="annModalBody" placeholder="Γράψε εδώ το κείμενο της ανακοίνωσής σου..."></textarea>
+        </div>
+      </div>
+      <div class="ann-modal-footer">
+        <button class="ann-modal-cancel" onclick="closeAnnModal()">Ακύρωση</button>
+        <button class="ann-modal-submit" id="annModalSubmit" onclick="submitAnnouncement()">📤 Δημοσίευση</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ADMIN LOGIN OVERLAY -->
   <div id="adminOverlay">
     <div class="admin-login-box">
@@ -3083,10 +3176,21 @@
        4. ΑΝΑΚΟΙΝΩΣΕΙΣ
     ════════════════════════════════ */
     let annCount = 0;
-    async function addAnnouncement() {
-      const title = prompt('Τίτλος ανακοίνωσης:');
-      if (!title) return;
-      const body = prompt('Κείμενο ανακοίνωσης:') || '';
+    function addAnnouncement() {
+      document.getElementById('annModalTitle').value = '';
+      document.getElementById('annModalBody').value = '';
+      document.getElementById('annModal').classList.add('open');
+      document.getElementById('annModalTitle').focus();
+    }
+    function closeAnnModal() {
+      document.getElementById('annModal').classList.remove('open');
+    }
+    async function submitAnnouncement() {
+      const title = document.getElementById('annModalTitle').value.trim();
+      const body = document.getElementById('annModalBody').value.trim();
+      if (!title) { document.getElementById('annModalTitle').focus(); return; }
+      const btn = document.getElementById('annModalSubmit');
+      btn.disabled = true; btn.textContent = 'Αποθήκευση...';
       const today = new Date().toISOString().split('T')[0];
       try {
         const res = await fetch(API_URL + '/api/announcements', {
@@ -3099,12 +3203,17 @@
         });
         const ann = await res.json();
         if (ann.id) {
+          closeAnnModal();
           await loadAnnouncements();
-          alert('✅ Η ανακοίνωση αποθηκεύτηκε!');
+          const toast = document.getElementById('saveToast');
+          toast.textContent = '✅ Η ανακοίνωση δημοσιεύτηκε!';
+          toast.classList.add('show');
+          setTimeout(() => { toast.classList.remove('show'); toast.textContent = '✅ Αποθηκεύτηκε!'; }, 2500);
         }
       } catch(e) {
-        alert('❌ Σφάλμα: ' + e.message);
+        alert('❌ Σφάλμα αποθήκευσης: ' + e.message);
       }
+      btn.disabled = false; btn.textContent = '📤 Δημοσίευση';
     }
     function deleteAnn(id) {
       const c = document.getElementById(`ann-${id}`); if (c) c.remove();
