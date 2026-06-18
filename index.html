@@ -448,6 +448,12 @@
       transform: translateY(-50%); gap: 2px;
     }
 
+
+    /* Show subdropdown admin controls on hover */
+    body.admin-mode .nav-subdropdown div:hover .sub-admin-ctrl { display: flex !important; }
+    body.admin-mode .egk-overview-links li:hover .egk-link-ctrl { display: flex !important; }
+    body.admin-mode .egk-admin-ctrl { display: flex !important; }
+
     /* ── EDIT BAR ── */
     .edit-bar {
       position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 199;
@@ -1324,6 +1330,9 @@
                 <a onclick="navigate('egk-kentro-ypiresies')" data-el="Υπηρεσίες" data-en="Services" data-ck="ck193" data-editable="true" contenteditable="false">Υπηρεσίες</a>
               </div>
             </div>
+            <div class="nav-dropdown-item admin-only" style="display:none;">
+              <a onclick="addCategory()" style="color:var(--green);font-weight:600;">➕ Νέα κατηγορία</a>
+            </div>
             <div class="nav-dropdown-item">
               <a onclick="navigate('egk-dimitriaka')" data-el="Δημητριακά – Ζωοτροφές" data-en="Cereals – Livestock Feed" data-ck="ck194" data-editable="true" contenteditable="false">Δημητριακά – Ζωοτροφές</a>
             </div>
@@ -1415,10 +1424,10 @@
           </div>
         </aside>
         <div class="home-text">
-          <p>Ο Αγροτικός Συνεταιρισμός Πέλλας ιδρύθηκε στην Πέλλα, την καρδιά της Μακεδονίας, την πατρίδα του Μεγάλου Αλεξάνδρου, μιας από τις πιο παραγωγικές περιοχές στην Ελλάδα. Ο Συνεταιρισμός ιδρύθηκε το 1928 με την τότε ονομασία <em>«Ένωση Γεωργικών Συνεταιρισμών Γιαννιτσών»</em> και μετονομάστηκε σε <em>«Αγροτικό Συνεταιρισμό Πέλλας»</em> μετά από την αλλαγή της νομοθεσίας το 2012.</p>
-          <p>Ο Αγροτικός Συνεταιρισμός Πέλλας περιλαμβάνει τώρα τουλάχιστον <strong>600 ενεργά μέλη</strong> και διατηρεί μία από τις πρώτες θέσεις των Αγροτικών Συνεταιριστικών Οργανώσεων στην Ελλάδα.</p>
-          <p>Σημαντικές λειτουργίες του Συνεταιρισμού είναι η συλλογή, η μεταφορά και η προώθηση προς τις εγχώριες και ξένες αγορές όλων των αγροτικών προϊόντων της περιοχής.</p>
-          <p>Ο κύριος ρόλος του Συνεταιρισμού είναι να υποστηρίξει την παραγωγική διαδικασία εξοπλισμένος με το κατάλληλο προσωπικό και την κατάλληλη υλικοτεχνική υποδομή. Η ευελιξία και η ταχύτητα είναι η κύρια φιλοσοφία και πρακτική του Αγροτικού Συνεταιρισμού Πέλλας.</p>
+          <p data-editable="true" data-ck="ck303" contenteditable="false">Ο Αγροτικός Συνεταιρισμός Πέλλας ιδρύθηκε στην Πέλλα, την καρδιά της Μακεδονίας, την πατρίδα του Μεγάλου Αλεξάνδρου, μιας από τις πιο παραγωγικές περιοχές στην Ελλάδα. Ο Συνεταιρισμός ιδρύθηκε το 1928 με την τότε ονομασία <em>«Ένωση Γεωργικών Συνεταιρισμών Γιαννιτσών»</em> και μετονομάστηκε σε <em>«Αγροτικό Συνεταιρισμό Πέλλας»</em> μετά από την αλλαγή της νομοθεσίας το 2012.</p>
+          <p data-editable="true" data-ck="ck304" contenteditable="false">Ο Αγροτικός Συνεταιρισμός Πέλλας περιλαμβάνει τώρα τουλάχιστον <strong>600 ενεργά μέλη</strong> και διατηρεί μία από τις πρώτες θέσεις των Αγροτικών Συνεταιριστικών Οργανώσεων στην Ελλάδα.</p>
+          <p data-editable="true" data-ck="ck305" contenteditable="false">Σημαντικές λειτουργίες του Συνεταιρισμού είναι η συλλογή, η μεταφορά και η προώθηση προς τις εγχώριες και ξένες αγορές όλων των αγροτικών προϊόντων της περιοχής.</p>
+          <p data-editable="true" data-ck="ck306" contenteditable="false">Ο κύριος ρόλος του Συνεταιρισμού είναι να υποστηρίξει την παραγωγική διαδικασία εξοπλισμένος με το κατάλληλο προσωπικό και την κατάλληλη υλικοτεχνική υποδομή. Η ευελιξία και η ταχύτητα είναι η κύρια φιλοσοφία και πρακτική του Αγροτικού Συνεταιρισμού Πέλλας.</p>
           <p class="home-reg">Αρ. Μητρώου: 0204017</p>
         </div>
         <div class="home-highlights">
@@ -1499,6 +1508,10 @@
 
         <!-- Κονσερβοποιείο -->
         <div class="egk-overview-card">
+          <div class="egk-admin-ctrl">
+            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-konservo',event)" title="Μετονομασία">✏️</button>
+            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-konservo',event)" title="Διαγραφή">✕</button>
+          </div>
           <div class="egk-overview-header" onclick="navigate('egk-konservo')">
             <span class="egk-overview-icon">🏭</span>
             <h3 class="egk-overview-title" data-el="Κονσερβοποιείο" data-en="Cannery">Κονσερβοποιείο</h3>
@@ -1509,49 +1522,91 @@
           </div>
           <ul class="egk-overview-links">
             <li>
-              <a onclick="navigate('egk-konservo-genika')">Γενικά</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-konservo-genika')">Γενικά</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-genika',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-genika',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-genika',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-genika',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-konservo-istoria')">Ιστορία</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-konservo-istoria')">Ιστορία</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-istoria',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-istoria',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-istoria',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-istoria',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-konservo-ygeia')">Υγεία και Ασφάλεια</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-konservo-ygeia')">Υγεία και Ασφάλεια</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-ygeia',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-ygeia',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-ygeia',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-ygeia',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-konservo-perivallontiki')">Περιβαλλοντική Πολιτική</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-konservo-perivallontiki')">Περιβαλλοντική Πολιτική</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-perivallontiki',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-perivallontiki',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-perivallontiki',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-perivallontiki',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-konservo-frouta')">Φρούτα προς κονσερβοποίηση</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-konservo-frouta')">Φρούτα προς κονσερβοποίηση</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-frouta',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-frouta',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-frouta',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-frouta',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-konservo-texnikes')">Τεχνικές Προδιαγραφές</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-konservo-texnikes')">Τεχνικές Προδιαγραφές</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-texnikes',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-texnikes',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-texnikes',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-texnikes',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-konservo-etiketes')">Οι ετικέτες μας</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-konservo-etiketes')">Οι ετικέτες μας</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-etiketes',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-etiketes',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-konservo-etiketes',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-konservo-etiketes',event)" title="Διαγραφή">✕</button>
@@ -1565,41 +1620,75 @@
 
         <!-- Εκκοκιστήριο -->
         <div class="egk-overview-card">
+          <div class="egk-admin-ctrl">
+            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-ekko',event)" title="Μετονομασία">✏️</button>
+            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-ekko',event)" title="Διαγραφή">✕</button>
+          </div>
           <div class="egk-overview-header" onclick="navigate('egk-ekko')">
             <span class="egk-overview-icon">🌾</span>
             <h3 class="egk-overview-title" data-el="Εκκοκιστήριο" data-en="Ginning Mill">Εκκοκιστήριο</h3>
           </div>
           <ul class="egk-overview-links">
             <li>
-              <a onclick="navigate('egk-ekko-genika')">Γενικά</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-ekko-genika')">Γενικά</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-genika',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-genika',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-genika',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-genika',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-ekko-skopos')">Σκοπός και όραμα</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-ekko-skopos')">Σκοπός και όραμα</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-skopos',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-skopos',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-skopos',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-skopos',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-ekko-paragogi')">Παραγωγική Διαδικασία</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-ekko-paragogi')">Παραγωγική Διαδικασία</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-paragogi',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-paragogi',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-paragogi',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-paragogi',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-ekko-dynamikotita')">Δυναμικότητα</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-ekko-dynamikotita')">Δυναμικότητα</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-dynamikotita',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-dynamikotita',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-dynamikotita',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-dynamikotita',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-ekko-poiotita')">Ποιότητα</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-ekko-poiotita')">Ποιότητα</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-poiotita',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-poiotita',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-ekko-poiotita',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-ekko-poiotita',event)" title="Διαγραφή">✕</button>
@@ -1613,20 +1702,36 @@
 
         <!-- Διαλογητήριο -->
         <div class="egk-overview-card">
+          <div class="egk-admin-ctrl">
+            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-dialogi',event)" title="Μετονομασία">✏️</button>
+            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-dialogi',event)" title="Διαγραφή">✕</button>
+          </div>
           <div class="egk-overview-header" onclick="navigate('egk-dialogi')">
             <span class="egk-overview-icon">❄️</span>
             <h3 class="egk-overview-title" data-el="Διαλογητήριο – Ψυγεία" data-en="Sorting – Cold Storage">Διαλογητήριο – Ψυγεία</h3>
           </div>
           <ul class="egk-overview-links">
             <li>
-              <a onclick="navigate('egk-dialogi-genika')">Γενικά</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-dialogi-genika')">Γενικά</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-dialogi-genika',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-dialogi-genika',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-dialogi-genika',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-dialogi-genika',event)" title="Διαγραφή">✕</button>
               </div>
             </li>
             <li>
-              <a onclick="navigate('egk-dialogi-poiotita')">Ποιότητα</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-dialogi-poiotita')">Ποιότητα</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-dialogi-poiotita',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-dialogi-poiotita',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-dialogi-poiotita',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-dialogi-poiotita',event)" title="Διαγραφή">✕</button>
@@ -1640,13 +1745,23 @@
 
         <!-- Κέντρο Εξυπηρέτησης -->
         <div class="egk-overview-card">
+          <div class="egk-admin-ctrl">
+            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-kentro',event)" title="Μετονομασία">✏️</button>
+            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-kentro',event)" title="Διαγραφή">✕</button>
+          </div>
           <div class="egk-overview-header" onclick="navigate('egk-kentro')">
             <span class="egk-overview-icon">🧑‍🌾</span>
             <h3 class="egk-overview-title" data-el="Κέντρο Εξυπηρέτησης Αγροτών" data-en="Farmers Service Centre">Κέντρο Εξυπηρέτησης Αγροτών</h3>
           </div>
           <ul class="egk-overview-links">
             <li>
-              <a onclick="navigate('egk-kentro-ypiresies')">Υπηρεσίες</a>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+                <a onclick="navigate('egk-kentro-ypiresies')">Υπηρεσίες</a>
+                <div style="display:none;" class="egk-link-ctrl sub-admin-ctrl">
+                  <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-kentro-ypiresies',event)">✏️</button>
+                  <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-kentro-ypiresies',event)">✕</button>
+                </div>
+              </div>
               <div class="egk-link-ctrl">
                 <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('egk-kentro-ypiresies',event)" title="Μετονομασία">✏️</button>
                 <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('egk-kentro-ypiresies',event)" title="Διαγραφή">✕</button>
@@ -1660,6 +1775,10 @@
 
         <!-- Δημητριακά -->
         <div class="egk-overview-card">
+          <div class="egk-admin-ctrl">
+            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('egk-dimitriaka',event)" title="Μετονομασία">✏️</button>
+            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('egk-dimitriaka',event)" title="Διαγραφή">✕</button>
+          </div>
           <div class="egk-overview-header" onclick="navigate('egk-dimitriaka')">
             <span class="egk-overview-icon">🌿</span>
             <h3 class="egk-overview-title" data-el="Δημητριακά – Ζωοτροφές" data-en="Cereals – Livestock Feed">Δημητριακά – Ζωοτροφές</h3>
@@ -3474,7 +3593,10 @@
           <li class="admin-only" style="display:flex;">
             <a onclick="addSubpage(this,event)" style="color:var(--green);font-weight:600;">➕ Νέα υποκατηγορία</a>
           </li>
-        </ul>
+        
+            <li class="admin-only" style="display:none;padding:0.3rem 0;">
+              <a onclick="addSubpage(this,event)" style="color:var(--green);font-weight:600;font-size:0.78rem;cursor:pointer;">➕ Νέα υποκατηγορία</a>
+            </li></ul>
       `;
       grid.insertBefore(newCard, addCard);
       // Save to CMS
