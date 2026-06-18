@@ -145,6 +145,104 @@
       padding-left: 1.6rem !important;
     }
 
+
+    /* ── ADMIN PANEL ── */
+    #adminOverlay {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      background: rgba(0,0,0,0.85); align-items: center; justify-content: center;
+    }
+    #adminOverlay.open { display: flex; }
+
+    .admin-login-box {
+      background: #fff; border-radius: 12px; padding: 2.5rem 2rem;
+      width: 100%; max-width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+    .admin-login-box h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; color: var(--ink); margin-bottom: 0.3rem;
+    }
+    .admin-login-box p { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .admin-field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.9rem; text-align: left; }
+    .admin-field label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+    .admin-field input {
+      padding: 0.7rem 0.9rem; border: 1px solid var(--border);
+      border-radius: 4px; font-size: 0.9rem; outline: none;
+      transition: border-color 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .admin-field input:focus { border-color: var(--green); }
+    .admin-login-btn {
+      width: 100%; padding: 0.8rem; background: var(--green); color: #fff;
+      border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; margin-top: 0.5rem; transition: background 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .admin-login-btn:hover { background: #2d6336; }
+    .admin-error {
+      color: #c0392b; font-size: 0.8rem; margin-top: 0.5rem;
+      display: none;
+    }
+    .admin-error.show { display: block; }
+
+    /* Admin toolbar when logged in */
+    #adminBar {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--ink); z-index: 9000; padding: 0.8rem 1.5rem;
+      align-items: center; justify-content: space-between;
+      border-top: 3px solid var(--green);
+    }
+    #adminBar.active { display: flex; }
+    .admin-bar-left { display: flex; align-items: center; gap: 1rem; }
+    .admin-bar-label {
+      color: #9DD49B; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .admin-bar-hint { color: rgba(255,255,255,0.5); font-size: 0.72rem; }
+    .admin-bar-right { display: flex; gap: 0.7rem; }
+    .admin-btn {
+      padding: 0.45rem 1rem; border-radius: 5px; font-size: 0.78rem;
+      font-weight: 600; cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+    }
+    .admin-btn-save { background: var(--green); color: #fff; }
+    .admin-btn-save:hover { background: #2d6336; }
+    .admin-btn-logout { background: rgba(255,255,255,0.1); color: #fff; }
+    .admin-btn-logout:hover { background: rgba(255,255,255,0.2); }
+    .admin-btn-add-photo { background: #f39c12; color: #fff; }
+    .admin-btn-add-photo:hover { background: #d68910; }
+
+    /* Editable highlights when admin */
+    body.admin-mode [contenteditable="true"] {
+      outline: 2px dashed rgba(58,125,68,0.5) !important;
+      border-radius: 2px;
+    }
+    body.admin-mode [contenteditable="true"]:hover {
+      outline-color: var(--green) !important;
+      background: rgba(58,125,68,0.04);
+    }
+    body.admin-mode [contenteditable="true"]:focus {
+      outline: 2px solid var(--green) !important;
+      background: #f8fdf8;
+    }
+    /* Admin add photo button on gallery cells */
+    body.admin-mode .gallery-cell::after {
+      content: '✏️';
+      position: absolute; top: 6px; right: 6px;
+      background: rgba(0,0,0,0.6); color: #fff;
+      font-size: 0.7rem; padding: 2px 6px; border-radius: 10px;
+      pointer-events: none;
+    }
+    /* Body padding when admin bar is shown */
+    body.admin-mode { padding-bottom: 56px; }
+    /* Save indicator */
+    #saveToast {
+      position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%);
+      background: var(--green); color: #fff; padding: 0.6rem 1.5rem;
+      border-radius: 20px; font-size: 0.82rem; font-weight: 600;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 9999;
+    }
+    #saveToast.show { opacity: 1; }
+
     /* ── EDIT BAR ── */
     .edit-bar {
       position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 199;
@@ -1023,8 +1121,8 @@
       <img id="heroImg" src="" alt="Hero" style="display:none"/>
       <div class="hero-overlay">
         <div class="hero-inner">
-          <p class="hero-eyebrow" contenteditable="true">Αγροτικός Συνεταιρισμός · Πέλλα</p>
-          <h1 class="hero-title" contenteditable="true">Φρέσκα <em>φρούτα</em><br>απ' την πηγή</h1>
+          <p class="hero-eyebrow" contenteditable="false" data-editable="true">Αγροτικός Συνεταιρισμός · Πέλλα</p>
+          <h1 class="hero-title" contenteditable="false" data-editable="true">Φρέσκα <em>φρούτα</em><br>απ' την πηγή</h1>
         </div>
       </div>
     </div>
@@ -1202,9 +1300,9 @@
       <div class="page-header">
         <p class="section-label" data-el="Εγκαταστάσεις" data-en="Facilities">Εγκαταστάσεις</p>
         <h2 class="section-title">Κονσερβοποιείο</h2>
-        <p class="section-intro" contenteditable="true">Γράψε εδώ για το Κονσερβοποιείο...</p>
+        <p class="section-intro" contenteditable="false" data-editable="true">Γράψε εδώ για το Κονσερβοποιείο...</p>
       </div>
-      <div class="subpage-content" contenteditable="true">
+      <div class="subpage-content" contenteditable="false" data-editable="true">
         <p>Προσθέσε το περιεχόμενο για το Κονσερβοποιείο εδώ.</p>
       </div>
     </div>
@@ -1218,9 +1316,9 @@
       <div class="page-header">
         <p class="section-label" data-el="Εγκαταστάσεις" data-en="Facilities">Εγκαταστάσεις</p>
         <h2 class="section-title">Εκκοκιστήριο</h2>
-        <p class="section-intro" contenteditable="true">Γράψε εδώ για το Εκκοκιστήριο...</p>
+        <p class="section-intro" contenteditable="false" data-editable="true">Γράψε εδώ για το Εκκοκιστήριο...</p>
       </div>
-      <div class="subpage-content" contenteditable="true">
+      <div class="subpage-content" contenteditable="false" data-editable="true">
         <p>Προσθέσε το περιεχόμενο για το Εκκοκιστήριο εδώ.</p>
       </div>
     </div>
@@ -1234,9 +1332,9 @@
       <div class="page-header">
         <p class="section-label" data-el="Εγκαταστάσεις" data-en="Facilities">Εγκαταστάσεις</p>
         <h2 class="section-title">Διαλογητήριο – Ψυγεία</h2>
-        <p class="section-intro" contenteditable="true">Γράψε εδώ για το Διαλογητήριο και τα Ψυγεία...</p>
+        <p class="section-intro" contenteditable="false" data-editable="true">Γράψε εδώ για το Διαλογητήριο και τα Ψυγεία...</p>
       </div>
-      <div class="subpage-content" contenteditable="true">
+      <div class="subpage-content" contenteditable="false" data-editable="true">
         <p>Προσθέσε το περιεχόμενο για το Διαλογητήριο εδώ.</p>
       </div>
     </div>
@@ -1250,9 +1348,9 @@
       <div class="page-header">
         <p class="section-label" data-el="Εγκαταστάσεις" data-en="Facilities">Εγκαταστάσεις</p>
         <h2 class="section-title">Κέντρο Εξυπηρέτησης Αγροτών</h2>
-        <p class="section-intro" contenteditable="true">Γράψε εδώ για το Κέντρο Εξυπηρέτησης Αγροτών...</p>
+        <p class="section-intro" contenteditable="false" data-editable="true">Γράψε εδώ για το Κέντρο Εξυπηρέτησης Αγροτών...</p>
       </div>
-      <div class="subpage-content" contenteditable="true">
+      <div class="subpage-content" contenteditable="false" data-editable="true">
         <p>Προσθέσε το περιεχόμενο για το Κέντρο Εξυπηρέτησης Αγροτών εδώ.</p>
       </div>
     </div>
@@ -2210,19 +2308,19 @@
           <div class="cert-img-wrap"><span class="cert-ph">🏆</span></div>
           <input class="cert-name" value="IFS Food"/>
           <input class="cert-desc" value="Version 8 — International Featured Standard"/>
-          <div class="cert-year" contenteditable="true">2024</div>
+          <div class="cert-year" contenteditable="false" data-editable="true">2024</div>
         </div>
         <div class="cert-card">
           <div class="cert-img-wrap"><span class="cert-ph">✅</span></div>
           <input class="cert-name" value="FSSC 22000"/>
           <input class="cert-desc" value="Food Safety Version 6"/>
-          <div class="cert-year" contenteditable="true">2024</div>
+          <div class="cert-year" contenteditable="false" data-editable="true">2024</div>
         </div>
         <div class="cert-card">
           <div class="cert-img-wrap"><span class="cert-ph">🌍</span></div>
           <input class="cert-name" value="EN ISO 22000"/>
           <input class="cert-desc" value="Food Safety Management — 2018"/>
-          <div class="cert-year" contenteditable="true">2024</div>
+          <div class="cert-year" contenteditable="false" data-editable="true">2024</div>
         </div>
         <div class="cert-card" id="cert-add-card" style="cursor:pointer;border:1px dashed var(--border);background:var(--bg);" onclick="addCert()">
           <div class="cert-img-wrap" style="background:var(--green-lt);"><span class="cert-ph" style="opacity:0.6;">➕</span></div>
@@ -2375,9 +2473,9 @@
         <div class="contact-right">
           <div class="contact-details">
             <h3 class="contact-details-title" data-el="Στοιχεία Επικοινωνίας" data-en="Contact Details">Στοιχεία Επικοινωνίας</h3>
-            <div class="contact-row"><span class="label" data-el="Διεύθυνση" data-en="Address">Διεύθυνση</span><span contenteditable="true">Γιαννιτσά, Πέλλα 58100</span></div>
-            <div class="contact-row"><span class="label" data-el="Τηλέφωνο" data-en="Phone">Τηλέφωνο</span><span contenteditable="true">+30 23820 00000</span></div>
-            <div class="contact-row"><span class="label">Email</span><span contenteditable="true">info@acpella.gr</span></div>
+            <div class="contact-row"><span class="label" data-el="Διεύθυνση" data-en="Address">Διεύθυνση</span><span contenteditable="false" data-editable="true">Γιαννιτσά, Πέλλα 58100</span></div>
+            <div class="contact-row"><span class="label" data-el="Τηλέφωνο" data-en="Phone">Τηλέφωνο</span><span contenteditable="false" data-editable="true">+30 23820 00000</span></div>
+            <div class="contact-row"><span class="label">Email</span><span contenteditable="false" data-editable="true">info@acpella.gr</span></div>
             <div class="contact-row"><span class="label" data-el="Ώρες" data-en="Hours">Ώρες</span><span contenteditable="true" data-el="Δευτ–Παρ, 08:00–16:00" data-en="Mon–Fri, 08:00–16:00">Δευτ–Παρ, 08:00–16:00</span></div>
             <div class="contact-row"><span class="label">Website</span><a href="https://www.acpella.gr" target="_blank" style="color:var(--green);font-size:0.86rem;">www.acpella.gr</a></div>
           </div>
@@ -2400,6 +2498,43 @@
   </div>
 
 
+
+  <!-- ADMIN LOGIN OVERLAY -->
+  <div id="adminOverlay">
+    <div class="admin-login-box">
+      <div style="font-size:2rem;margin-bottom:0.5rem;">🔐</div>
+      <h2>Admin Panel</h2>
+      <p>Σύνδεση διαχειριστή<br>A.C. Pella Website</p>
+      <div class="admin-field">
+        <label>Όνομα χρήστη</label>
+        <input type="text" id="adminUser" placeholder="admin.acpella" autocomplete="username"/>
+      </div>
+      <div class="admin-field">
+        <label>Κωδικός</label>
+        <input type="password" id="adminPass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+      </div>
+      <div class="admin-error" id="adminError">❌ Λάθος στοιχεία. Δοκίμασε ξανά.</div>
+      <button class="admin-login-btn" onclick="doAdminLogin()">Σύνδεση →</button>
+    </div>
+  </div>
+
+  <!-- ADMIN BAR (shown when logged in) -->
+  <div id="adminBar">
+    <div class="admin-bar-left">
+      <span class="admin-bar-label">🛠 Admin Mode</span>
+      <span class="admin-bar-hint">Κάνε κλικ σε οποιοδήποτε κείμενο για επεξεργασία</span>
+    </div>
+    <div class="admin-bar-right">
+      <button class="admin-btn admin-btn-add-photo" onclick="document.getElementById('adminPhotoInput').click()">📷 Προσθήκη Φωτογραφίας</button>
+      <input type="file" id="adminPhotoInput" accept="image/*" multiple style="display:none" onchange="adminAddPhotos(this)"/>
+      <button class="admin-btn admin-btn-save" onclick="adminSave()">💾 Αποθήκευση</button>
+      <button class="admin-btn admin-btn-logout" onclick="adminLogout()">Αποσύνδεση</button>
+    </div>
+  </div>
+
+  <!-- SAVE TOAST -->
+  <div id="saveToast">✅ Αποθηκεύτηκε!</div>
+
   <!-- LIGHTBOX -->
   <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
     <button class="lightbox-close" onclick="closeLightbox()">✕</button>
@@ -2413,6 +2548,130 @@
 
 
 
+
+
+
+    /* ════════════════════════════════
+       ADMIN PANEL
+    ════════════════════════════════ */
+    const ADMIN_USER = 'admin.acpella';
+    const ADMIN_PASS = 'acpella123';
+    let isAdmin = false;
+
+    // Check URL hash for admin
+    function checkAdminHash() {
+      if (window.location.hash === '#admin') {
+        document.getElementById('adminOverlay').classList.add('open');
+      }
+    }
+    window.addEventListener('hashchange', checkAdminHash);
+    window.addEventListener('load', checkAdminHash);
+    // Also check on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', checkAdminHash);
+
+    function doAdminLogin() {
+      const user = document.getElementById('adminUser').value.trim();
+      const pass = document.getElementById('adminPass').value;
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        document.getElementById('adminOverlay').classList.remove('open');
+        document.getElementById('adminError').classList.remove('show');
+        enableAdminMode();
+      } else {
+        document.getElementById('adminError').classList.add('show');
+        document.getElementById('adminPass').value = '';
+        document.getElementById('adminPass').focus();
+      }
+    }
+
+    function enableAdminMode() {
+      isAdmin = true;
+      document.body.classList.add('admin-mode');
+      document.getElementById('adminBar').classList.add('active');
+      // Make all contenteditable actually editable
+      document.querySelectorAll('[contenteditable]').forEach(el => {
+        el.setAttribute('contenteditable', 'true');
+      });
+      // Make gallery cells replaceable on click (when admin)
+      document.querySelectorAll('.gallery-cell').forEach((cell, i) => {
+        cell.addEventListener('click', function adminCellClick(e) {
+          if (!isAdmin) return;
+          e.stopPropagation();
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.accept = 'image/*';
+          input.onchange = () => {
+            const url = URL.createObjectURL(input.files[0]);
+            let img = cell.querySelector('img');
+            if (!img) {
+              img = document.createElement('img');
+              img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+              cell.appendChild(img);
+            }
+            img.src = url;
+          };
+          input.click();
+        }, {once: false});
+      });
+      // Remove previous lightbox clicks to avoid conflict
+      document.querySelectorAll('.gallery-cell img').forEach(img => {
+        img.onclick = null;
+      });
+    }
+
+    function adminLogout() {
+      isAdmin = false;
+      document.body.classList.remove('admin-mode');
+      document.getElementById('adminBar').classList.remove('active');
+      // Remove admin hash
+      history.pushState('', document.title, window.location.pathname);
+    }
+
+    function adminSave() {
+      // Save all contenteditable content to localStorage
+      const data = {};
+      document.querySelectorAll('[contenteditable][id]').forEach(el => {
+        data[el.id] = el.innerHTML;
+      });
+      // Save by text content with a key
+      const editables = document.querySelectorAll('[contenteditable="true"]');
+      const saved = [];
+      editables.forEach((el, i) => {
+        saved.push({ i, html: el.innerHTML });
+      });
+      try {
+        localStorage.setItem('acpella_content', JSON.stringify(saved));
+      } catch(e) {}
+      // Show toast
+      const toast = document.getElementById('saveToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function adminAddPhotos(input) {
+      const grid = document.getElementById('galleryGrid');
+      Array.from(input.files).forEach(file => {
+        const url = URL.createObjectURL(file);
+        const div = document.createElement('div');
+        div.className = 'gallery-cell';
+        div.dataset.cat = 'egkat';
+        div.style.cssText = 'position:relative;overflow:hidden;cursor:pointer;';
+        div.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"/>`;
+        grid.appendChild(div);
+      });
+    }
+
+    // Load saved content on page load
+    (function loadSavedContent() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('acpella_content') || '[]');
+        if (saved.length) {
+          const editables = document.querySelectorAll('[contenteditable="true"]');
+          saved.forEach(({ i, html }) => {
+            if (editables[i]) editables[i].innerHTML = html;
+          });
+        }
+      } catch(e) {}
+    })();
 
 
     /* ════════════════════════════════
@@ -2546,8 +2805,8 @@
             <img id="fimg-${i}" src="${f.img || ''}" alt="${f.name}" style="display:${hasImg}"/>
           </div>
           <div class="facility-body">
-            <div class="facility-name" contenteditable="true">${f.name}</div>
-            <div class="facility-desc" contenteditable="true">${f.desc}</div>
+            <div class="facility-name" contenteditable="false" data-editable="true">${f.name}</div>
+            <div class="facility-desc" contenteditable="false" data-editable="true">${f.desc}</div>
           </div>
         </div>`;
     });
@@ -2582,7 +2841,7 @@
         </div>
         <input class="cert-name" value="${c.name}" placeholder="Όνομα…"/>
         <input class="cert-desc" value="${c.desc}" placeholder="Περιγραφή…"/>
-        <div class="cert-year" contenteditable="true">${c.year}</div>
+        <div class="cert-year" contenteditable="false" data-editable="true">${c.year}</div>
         <button class="btn-del-cert" onclick="deleteCert(${id})">✕</button>`;
       cgrid.appendChild(card);
     }
@@ -3004,8 +3263,8 @@
       newCard.innerHTML = `
         <div class="label-img-wrap"><img src="${url}" style="width:100%;height:auto;display:block;border-radius:4px;"/></div>
         <div class="label-info">
-          <h4 class="label-name" contenteditable="true">Νέα Ετικέτα</h4>
-          <p class="label-desc" contenteditable="true">Κλικ για επεξεργασία περιγραφής...</p>
+          <h4 class="label-name" contenteditable="false" data-editable="true">Νέα Ετικέτα</h4>
+          <p class="label-desc" contenteditable="false" data-editable="true">Κλικ για επεξεργασία περιγραφής...</p>
         </div>`;
       grid.insertBefore(newCard, empty);
     }
