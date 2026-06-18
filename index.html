@@ -450,9 +450,13 @@
 
 
     /* Show subdropdown admin controls on hover */
-    body.admin-mode .nav-subdropdown div:hover .sub-admin-ctrl { display: flex !important; }
+    body.admin-mode .nav-subdropdown > div:hover .sub-admin-ctrl { display: flex !important; }
     body.admin-mode .egk-overview-links li:hover .egk-link-ctrl { display: flex !important; }
     body.admin-mode .egk-admin-ctrl { display: flex !important; }
+    body.admin-mode .nav-link-wrap.has-dropdown:hover .nav-dropdown.admin-only { display: block !important; }
+    body.admin-mode .nav-dropdown-item .admin-only { display: block !important; }
+    body.admin-mode #dropdown-pist, body.admin-mode #dropdown-gallery,
+    body.admin-mode #dropdown-ann, body.admin-mode #dropdown-contact { min-width: 200px; }
 
     /* ── EDIT BAR ── */
     .edit-bar {
@@ -1330,9 +1334,6 @@
                 <a onclick="navigate('egk-kentro-ypiresies')" data-el="Υπηρεσίες" data-en="Services" data-ck="ck193" data-editable="true" contenteditable="false">Υπηρεσίες</a>
               </div>
             </div>
-            <div class="nav-dropdown-item admin-only" style="display:none;">
-              <a onclick="addCategory()" style="color:var(--green);font-weight:600;">➕ Νέα κατηγορία</a>
-            </div>
             <div class="nav-dropdown-item">
               <a onclick="navigate('egk-dimitriaka')" data-el="Δημητριακά – Ζωοτροφές" data-en="Cereals – Livestock Feed" data-ck="ck194" data-editable="true" contenteditable="false">Δημητριακά – Ζωοτροφές</a>
             </div>
@@ -1344,18 +1345,38 @@
         <li class="nav-link-wrap"><a onclick="navigate('pist')"    id="nav-pist"    data-el="Πιστοποιητικά &amp; Διακρίσεις" data-en="Certifications" data-ck="ck195" data-editable="true" contenteditable="false">Πιστοποιητικά &amp; Διακρίσεις</a><div class="nav-admin-ctrl">
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('pist',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('pist',event)">✕</button>
+        </div>
+        <div class="nav-dropdown admin-only" style="display:none;" id="dropdown-pist">
+          <div class="nav-dropdown-item admin-only" style="display:none;padding:0.5rem 1.2rem;">
+            <a onclick="addSubpageToNav('pist',event)" style="color:var(--green);font-weight:600;font-size:0.78rem;">➕ Νέα υποσελίδα</a>
+          </div>
         </div></li>
-        <li class="nav-link-wrap"><a onclick="navigate('gallery')" id="nav-gallery"  data-el="Photo Gallery"         data-en="Photo Gallery" data-ck="ck196" data-editable="true" contenteditable="false">Photo Gallery</a><div class="nav-admin-ctrl">
+        <li class="nav-link-wrap has-dropdown"><a onclick="navigate('gallery')" id="nav-gallery"  data-el="Photo Gallery"         data-en="Photo Gallery" data-ck="ck196" data-editable="true" contenteditable="false">Photo Gallery</a><div class="nav-admin-ctrl">
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('gallery',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('gallery',event)">✕</button>
+        </div>
+        <div class="nav-dropdown admin-only" style="display:none;" id="dropdown-gallery">
+          <div class="nav-dropdown-item admin-only" style="display:none;padding:0.5rem 1.2rem;">
+            <a onclick="addSubpageToNav('gallery',event)" style="color:var(--green);font-weight:600;font-size:0.78rem;">➕ Νέα υποσελίδα</a>
+          </div>
         </div></li>
         <li class="nav-link-wrap"><a onclick="navigate('ann')"     id="nav-ann"     data-el="Ανακοινώσεις"           data-en="News" data-ck="ck197" data-editable="true" contenteditable="false">Ανακοινώσεις</a><div class="nav-admin-ctrl">
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('ann',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('ann',event)">✕</button>
+        </div>
+        <div class="nav-dropdown admin-only" style="display:none;" id="dropdown-ann">
+          <div class="nav-dropdown-item admin-only" style="display:none;padding:0.5rem 1.2rem;">
+            <a onclick="addSubpageToNav('ann',event)" style="color:var(--green);font-weight:600;font-size:0.78rem;">➕ Νέα υποσελίδα</a>
+          </div>
         </div></li>
-        <li class="nav-link-wrap"><a onclick="navigate('contact')" id="nav-contact" data-el="Επικοινωνία"            data-en="Contact" data-ck="ck198" data-editable="true" contenteditable="false">Επικοινωνία</a><div class="nav-admin-ctrl">
+        <li class="nav-link-wrap has-dropdown"><a onclick="navigate('contact')" id="nav-contact" data-el="Επικοινωνία"            data-en="Contact" data-ck="ck198" data-editable="true" contenteditable="false">Επικοινωνία</a><div class="nav-admin-ctrl">
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('contact',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('contact',event)">✕</button>
+        </div>
+        <div class="nav-dropdown admin-only" style="display:none;" id="dropdown-contact">
+          <div class="nav-dropdown-item admin-only" style="display:none;padding:0.5rem 1.2rem;">
+            <a onclick="addSubpageToNav('contact',event)" style="color:var(--green);font-weight:600;font-size:0.78rem;">➕ Νέα υποσελίδα</a>
+          </div>
         </div></li>
       </ul>
       <!-- Language switcher -->
@@ -3568,6 +3589,34 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
         body: JSON.stringify({ title, slug, content: '', parent_id: null })
+      }).then(() => loadCMSPages());
+    }
+
+    function addSubpageToNav(navId, e) {
+      e.stopPropagation();
+      const title = prompt('Τίτλος νέας υποσελίδας:');
+      if (!title) return;
+      const slug = 'sub-' + navId + '-' + Date.now();
+      const dropdown = document.getElementById('dropdown-' + navId);
+      if (!dropdown) return;
+      const addBtn = dropdown.querySelector('.admin-only');
+      const newItem = document.createElement('div');
+      newItem.className = 'nav-dropdown-item';
+      newItem.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+          <a onclick="navigate('cms-${slug}')">${title}</a>
+          <div class="sub-admin-ctrl" style="display:none;">
+            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('cms-${slug}',event)">✏️</button>
+            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('cms-${slug}',event)">✕</button>
+          </div>
+        </div>
+      `;
+      dropdown.insertBefore(newItem, addBtn);
+      // Save to CMS
+      fetch(API_URL + '/api/pages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
+        body: JSON.stringify({ title, slug, content: '' })
       }).then(() => loadCMSPages());
     }
 
