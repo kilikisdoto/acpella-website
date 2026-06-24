@@ -7,20 +7,14 @@ import * as announcements from './announcements.js';
 import * as i18n from './i18n.js';
 import * as api from './api.js';
 
-// Expose everything to window for onclick handlers
 Object.assign(window, auth, cms, gallery, router, ui, announcements, i18n, api);
 
-// Init on load
-document.addEventListener('DOMContentLoaded', () => {
-  api.loadContentFromAPI();
-  api.loadAnnouncements();
-  api.loadGalleryFromAPI();
-  api.loadHomeAnnouncements();
-  cms.loadCMSPages();
-  auth.checkAdminHash();
+api.loadContentFromAPI();
+api.loadAnnouncements();
+api.loadGalleryFromAPI();
+api.loadHomeAnnouncements();
+cms.loadCMSPages();
+auth.checkAdminHash();
 
-  const initHash = location.hash.replace('#', '');
-  if (router.pages && router.pages.includes(initHash)) router.navigate(initHash);
-});
-
-window.addEventListener('hashchange', () => auth.checkAdminHash());
+const initHash = location.hash.replace('#', '');
+if (router.pages && router.pages.includes(initHash)) router.navigate(initHash);
