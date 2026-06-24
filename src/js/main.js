@@ -7,6 +7,15 @@ import * as announcements from './announcements.js';
 import * as i18n from './i18n.js';
 import * as api from './api.js';
 
+window._auth = auth;
+window._cms = cms;
+window._gallery = gallery;
+window._router = router;
+window._ui = ui;
+window._announcements = announcements;
+window._i18n = i18n;
+window._api = api;
+
 Object.assign(window, auth, cms, gallery, router, ui, announcements, i18n, api);
 
 api.loadContentFromAPI();
