@@ -1338,6 +1338,55 @@
       .nav-links li a { padding: 0 0.5rem; font-size: 0.62rem; }
       .hero-wrap.has-image { height: 200px; }
     }
+
+    /* ── ISOLOGISMOI ── */
+    #page-iso { background: var(--bg); }
+    .iso-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .iso-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .iso-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .iso-card-icon { font-size: 2rem; flex-shrink: 0; }
+    .iso-card-info { flex: 1; }
+    .iso-card-year { font-size: 0.75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .iso-card-title { font-size: 0.95rem; font-weight: 600; color: var(--ink); margin: 0.2rem 0 0.6rem; }
+    .iso-card-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 5px;
+      padding: 0.4rem 0.9rem; font-size: 0.78rem;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .iso-card-btn:hover { background: #1a5c2a; }
+    .iso-del-btn {
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 0.8rem; padding: 0.3rem;
+      border-radius: 4px; transition: color 0.2s;
+    }
+    .iso-del-btn:hover { color: #c0392b; }
+    .iso-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 8px; padding: 2rem;
+      text-align: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 1rem;
+    }
+    .iso-upload-area:hover { border-color: var(--green); background: var(--green-lt); }
+    .iso-empty { color: var(--muted); font-size: 0.9rem; text-align: center; padding: 3rem; }
+    @media(max-width:768px) { .iso-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -3021,6 +3070,54 @@
     <footer style="margin:0 2rem;">© 2025 <span>A.C. Pella</span> · Αγροτικός Συνεταιρισμός Πέλλας</footer>
   </div>
 
+  <!-- ΙΣΟΛΟΓΙΣΜΟΙ -->
+  <div class="page" id="page-iso">
+    <div class="page-inner">
+      <div class="page-header">
+        <p class="section-label">Χρηματοοικονομικά</p>
+        <h2 class="section-title">Ισολογισμοί &amp; Χρηματοοικονομικές Καταστάσεις</h2>
+        <p class="section-intro">Πρόσβαση στους ετήσιους ισολογισμούς και χρηματοοικονομικές καταστάσεις του Αγροτικού Συνεταιρισμού Πέλλας.</p>
+      </div>
+      <div class="admin-only" style="display:none; margin-bottom:1.5rem;">
+        <button class="btn-primary" onclick="openIsoUpload()" style="display:flex; align-items:center; gap:0.5rem;">📄 + Νέος Ισολογισμός</button>
+      </div>
+      <div class="iso-grid" id="isoGrid">
+        <div class="iso-empty" id="isoEmpty">Δεν υπάρχουν ισολογισμοί ακόμα.</div>
+      </div>
+    </div>
+    <footer style="margin:0 2rem;">© 2025 <span>A.C. Pella</span> · Αγροτικός Συνεταιρισμός Πέλλας</footer>
+  </div>
+
+  <!-- Modal Ισολογισμού -->
+  <div id="isoModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:10px; width:90%; max-width:480px; padding:2rem; position:relative;">
+      <button onclick="closeIsoModal()" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;">✕</button>
+      <h3 style="margin:0 0 1.5rem; font-size:1.1rem;">Νέος Ισολογισμός</h3>
+      <div style="display:flex; flex-direction:column; gap:1rem;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:600; color:#555; display:block; margin-bottom:0.4rem;">Τίτλος</label>
+          <input id="isoTitle" type="text" placeholder="π.χ. Ισολογισμός 2024" style="width:100%; padding:0.6rem 0.8rem; border:1px solid #ddd; border-radius:6px; font-size:0.9rem; box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:600; color:#555; display:block; margin-bottom:0.4rem;">Έτος</label>
+          <input id="isoYear" type="number" placeholder="2024" style="width:100%; padding:0.6rem 0.8rem; border:1px solid #ddd; border-radius:6px; font-size:0.9rem; box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:600; color:#555; display:block; margin-bottom:0.4rem;">Αρχείο PDF</label>
+          <div class="iso-upload-area" onclick="document.getElementById('isoPdfInput').click()">
+            <div style="font-size:2rem; margin-bottom:0.5rem;">📄</div>
+            <div id="isoPdfLabel" style="font-size:0.85rem; color:#666;">Κλικ για επιλογή PDF</div>
+          </div>
+          <input type="file" id="isoPdfInput" accept=".pdf" style="display:none;" onchange="handleIsoPdf(this)"/>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; margin-top:1.5rem; justify-content:flex-end;">
+        <button onclick="closeIsoModal()" style="padding:0.6rem 1.2rem; border:1px solid #ddd; border-radius:6px; background:#fff; cursor:pointer;">Ακύρωση</button>
+        <button onclick="submitIso()" id="isoSubmitBtn" style="padding:0.6rem 1.4rem; background:var(--green); color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Αποθήκευση...</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ΕΠΙΚΟΙΝΩΝΙΑ -->
   <div class="page" id="page-contact">
     <div class="page-inner">
@@ -3566,6 +3663,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadContentFromAPI();
       loadAnnouncements();
+      loadIsologismoi();
       loadGalleryFromAPI();
       loadHomeAnnouncements();
       loadCMSPages(); // Load dynamic pages on startup
@@ -4067,13 +4165,13 @@
     /* ════════════════════════════════
        SPA ROUTER
     ════════════════════════════════ */
-    const pages = ['home','egk',
+    const pages = ['home','egk','iso',
       'egk-konservo','egk-konservo-genika','egk-konservo-istoria','egk-konservo-ygeia','egk-konservo-perivallontiki','egk-konservo-frouta','egk-konservo-texnikes','egk-konservo-etiketes',
       'egk-ekko','egk-ekko-genika','egk-ekko-skopos','egk-ekko-paragogi','egk-ekko-dynamikotita','egk-ekko-poiotita',
       'egk-dialogi','egk-dialogi-genika','egk-dialogi-poiotita',
       'egk-kentro','egk-kentro-ypiresies',
       'egk-dimitriaka',
-      'pist','gallery','ann','contact'];
+      'pist','gallery','ann','iso','contact'];
 
     function navigate(id) {
       // Check if dynamic page
@@ -4352,6 +4450,7 @@
         'nav-pist': 'Πιστοποιητικά &amp; Διακρίσεις',
         'nav-gallery': 'Photo Gallery',
         'nav-ann': 'Ανακοινώσεις',
+        'nav-iso': 'Ισολογισμοί',
         'nav-contact': 'Επικοινωνία',
         heroEyebrow: 'Αγροτικός Συνεταιρισμός · Πέλλα',
         heroTitle: 'Φρέσκα <em>φρούτα</em><br>απ\' την πηγή',
@@ -4420,6 +4519,7 @@
         'nav-pist': 'Certifications',
         'nav-gallery': 'Photo Gallery',
         'nav-ann': 'News',
+        'nav-iso': 'Financial Reports',
         'nav-contact': 'Contact',
         heroEyebrow: 'Agricultural Cooperative · Pella',
         heroTitle: 'Fresh <em>fruits</em><br>from the source',
@@ -4502,7 +4602,7 @@
       });
 
       // Nav
-      ['egk','pist','gallery','ann','contact'].forEach(id => {
+      ['egk','pist','gallery','ann','iso','contact'].forEach(id => {
         const el = document.getElementById('nav-' + id);
         if (el) el.innerHTML = t['nav-' + id];
       });
@@ -4699,6 +4799,28 @@
   
   
   
+
+    async function downloadIso(id, e) {
+      e.preventDefault();
+      try {
+        const res = await fetch(API_URL + '/api/isologismoi/' + id);
+        const data = await res.json();
+        const base64 = data.pdf_data.split(',')[1];
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        const blob = new Blob([bytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = data.title + '.pdf';
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch(err) {
+        alert('Σφάλμα ληψης PDF!');
+      }
+    }
+
   </script>
 </body>
 </html>
