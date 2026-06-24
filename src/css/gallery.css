@@ -1,0 +1,64 @@
+    /* ── LIGHTBOX ── */
+    .lightbox-overlay {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.92); cursor: pointer;
+      align-items: center; justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-overlay img {
+      max-width: 92vw; max-height: 88vh;
+      object-fit: contain; border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      cursor: default;
+    }
+    .lightbox-close {
+      position: absolute; top: 1.2rem; right: 1.5rem;
+      color: white; font-size: 2rem; cursor: pointer;
+      background: none; border: none; line-height: 1;
+      opacity: 0.8; transition: opacity 0.15s;
+    }
+    .lightbox-close:hover { opacity: 1; }
+    .lightbox-caption {
+      position: absolute; bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.85); font-size: 0.9rem;
+      background: rgba(0,0,0,0.5); padding: 0.4rem 1.2rem;
+      border-radius: 20px; white-space: nowrap;
+    }
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      color: white; font-size: 2rem; cursor: pointer;
+      background: rgba(255,255,255,0.1); border: none;
+      padding: 0.5rem 0.9rem; border-radius: 4px;
+      transition: background 0.15s; line-height: 1;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,0.25); }
+    .lightbox-prev { left: 1rem; }
+    .lightbox-next { right: 1rem; }
+    .gallery-cell { cursor: pointer; }
+
+    /* ── GALLERY TAGS ── */
+    .gallery-tag {
+      padding: 0.3rem 0.9rem; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 500;
+      border: 1px solid var(--border); color: var(--muted);
+      cursor: pointer; transition: all 0.15s; user-select: none;
+    }
+    .gallery-tag:hover { border-color: var(--green); color: var(--green); }
+    .active-tag { background: var(--green); color: #fff !important; border-color: var(--green); }
+
+    .sidebar-ann-all {
+      display: block; font-size: 0.75rem; color: var(--green);
+      font-weight: 600; margin-top: 0.8rem; cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .sidebar-ann-all:hover { opacity: 0.7; }
+    .sidebar-ann-item {
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 0; cursor: pointer;
+    }
+    .sidebar-ann-item:last-child { border-bottom: none; }
+    .sidebar-ann-item:hover .sidebar-ann-title { color: var(--green); }
+    .sidebar-ann-date { font-size: 0.65rem; color: var(--green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+    .sidebar-ann-title { font-size: 0.78rem; color: var(--ink); line-height: 1.4; font-weight: 500; }
