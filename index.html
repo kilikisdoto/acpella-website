@@ -1500,6 +1500,8 @@
           <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameNavItem('ann',event)">✏️</button>
           <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteNavItem('ann',event)">✕</button>
         </div></li>
+        <li class="nav-link-wrap has-dropdown"><a onclick="navigate('iso')" id="nav-iso" data-el="Ισολογισμοί" data-en="Financial Reports" contenteditable="false">Ισολογισμοί</a>
+        <div class="nav-dropdown" id="dropdown-iso"></div></li>
         <li class="nav-link-wrap has-dropdown"><a onclick="navigate('contact')" id="nav-contact" data-el="Επικοινωνία" data-en="Contact" data-ck="ck198" data-editable="true" contenteditable="false">Επικοινωνία</a>
         <div class="nav-dropdown" id="dropdown-contact">
           <div class="nav-sub-add admin-only"><a onclick="addSubpageToNav('contact',event)">➕ Νέα υποσελίδα</a></div>
@@ -4799,6 +4801,97 @@
   
   
   
+
+
+    /* ════════════════════════════════
+       6. ΙΣΟΛΟΓΙΣΜΟΙ
+    ════════════════════════════════ */
+    let isoPdfData = null;
+
+    async function loadIsologismoi() {
+      try {
+        const res = await fetch(API_URL + '/api/isologismoi');
+        const items = await res.json();
+        const grid = document.getElementById('isoGrid');
+        const empty = document.getElementById('isoEmpty');
+        if (!grid) return;
+        grid.querySelectorAll('.iso-card').forEach(c => c.remove());
+        if (!items.length) {
+          if (empty) empty.style.display = 'block';
+          return;
+        }
+        if (empty) empty.style.display = 'none';
+        items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'iso-card';
+          card.innerHTML = '<div class="iso-card-icon">📄</div><div class="iso-card-info"><div class="iso-card-year">' + item.year + '</div><div class="iso-card-title">' + item.title + '</div><a class="iso-card-btn" href="#" onclick="downloadIso(' + item.id + ', event)">⬇ Ληψη PDF</a></div>' + (isAdmin ? '<button class="iso-del-btn admin-only" onclick="deleteIso(' + item.id + ')" title="Διαγραφη">✕</button>' : '');
+          grid.appendChild(card);
+        });
+      } catch(e) { console.error('loadIsologismoi error:', e); }
+    }
+
+    function openIsoUpload() {
+      document.getElementById('isoModal').style.display = 'flex';
+      document.getElementById('isoTitle').value = '';
+      document.getElementById('isoYear').value = new Date().getFullYear();
+      document.getElementById('isoPdfLabel').textContent = 'Κλικ για επιλογη PDF';
+      isoPdfData = null;
+    }
+
+    function closeIsoModal() {
+      document.getElementById('isoModal').style.display = 'none';
+    }
+
+    function handleIsoPdf(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        isoPdfData = e.target.result;
+        document.getElementById('isoPdfLabel').textContent = '✓ ' + file.name;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function submitIso() {
+      const title = document.getElementById('isoTitle').value.trim();
+      const year = document.getElementById('isoYear').value;
+      if (!title || !year || !isoPdfData) {
+        alert('Συμπληρωσε τιτλο, ετος και αρχειο PDF!');
+        return;
+      }
+      const btn = document.getElementById('isoSubmitBtn');
+      btn.textContent = 'Αποθηκευση...';
+      btn.disabled = true;
+      try {
+        const res = await fetch(API_URL + '/api/isologismoi', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
+          body: JSON.stringify({ title, year: parseInt(year), pdf_data: isoPdfData })
+        });
+        if (res.ok) {
+          closeIsoModal();
+          loadIsologismoi();
+        } else {
+          alert('Σφαλμα αποθηκευσης!');
+        }
+      } catch(e) {
+        alert('Σφαλμα: ' + e.message);
+      }
+      btn.textContent = 'Αποθηκευση';
+      btn.disabled = false;
+    }
+
+    async function deleteIso(id) {
+      if (!confirm('Διαγραφη ισολογισμου;')) return;
+      try {
+        await fetch(API_URL + '/api/isologismoi/' + id, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + adminToken }
+        });
+        loadIsologismoi();
+      } catch(e) {}
+    }
 
     async function downloadIso(id, e) {
       e.preventDefault();
