@@ -1,12 +1,12 @@
-import { API_URL } from './config.js';
+﻿import { API_URL } from './config.js';
 import { state } from './state.js';
 
-    /* ════════════════════════════════
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
        ADMIN PANEL
-    ════════════════════════════════ */
-    const API_URL = 'https://acpella-backend-production.up.railway.app';
-    const ADMIN_USER = 'admin.acpella';
-    const ADMIN_PASS = 'acpella123';
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+
+
 export let isAdmin = false;
 export let adminToken = null;
 
@@ -72,7 +72,7 @@ export function enableAdminMode() {
       });
       // Add visual hint for editable elements
       document.querySelectorAll('[data-ck]').forEach(el => {
-        el.title = 'Κλικ για επεξεργασία';
+        el.title = 'ÎšÎ»Î¹Îº Î³Î¹Î± ÎµÏ€ÎµÎ¾ÎµÏÎ³Î±ÏƒÎ¯Î±';
       });
       // Make gallery cells replaceable on click (when admin)
       document.querySelectorAll('.gallery-cell').forEach((cell, i) => {
@@ -145,14 +145,14 @@ export async function adminSave() {
       }
       // Show toast
       const toast = document.getElementById('saveToast');
-      toast.textContent = '✅ Αποθηκεύτηκε! Θα εμφανιστεί σε όλους.';
+      toast.textContent = 'âœ… Î‘Ï€Î¿Î¸Î·ÎºÎµÏÏ„Î·ÎºÎµ! Î˜Î± ÎµÎ¼Ï†Î±Î½Î¹ÏƒÏ„ÎµÎ¯ ÏƒÎµ ÏŒÎ»Î¿Ï…Ï‚.';
       toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); toast.textContent = '✅ Αποθηκεύτηκε!'; }, 3000);
+      setTimeout(() => { toast.classList.remove('show'); toast.textContent = 'âœ… Î‘Ï€Î¿Î¸Î·ÎºÎµÏÏ„Î·ÎºÎµ!'; }, 3000);
     }
 
 export function adminAddPhotos(input) {
       const grid = document.getElementById('galleryGrid');
-      const caption = prompt('Τίτλος φωτογραφίας (προαιρετικό):') || '';
+      const caption = prompt('Î¤Î¯Ï„Î»Î¿Ï‚ Ï†Ï‰Ï„Î¿Î³ÏÎ±Ï†Î¯Î±Ï‚ (Ï€ÏÎ¿Î±Î¹ÏÎµÏ„Î¹ÎºÏŒ):') || '';
       Array.from(input.files).forEach(file => {
         const reader = new FileReader();
         reader.onload = async (e) => {
@@ -183,16 +183,16 @@ export function adminAddPhotos(input) {
 
     // Load content from API on page load
 
-    /* ════════════════════════════════
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
        ADMIN INLINE EDIT CONTROLS
-    ════════════════════════════════ */
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 export function renameNavItem(navId, e) {
       e.stopPropagation();
       const el = document.getElementById('nav-' + navId);
       if (!el) return;
       const current = el.textContent.trim();
-      const newName = prompt('Νέο όνομα για "' + current + '":', current);
+      const newName = prompt('ÎÎ­Î¿ ÏŒÎ½Î¿Î¼Î± Î³Î¹Î± "' + current + '":', current);
       if (!newName || newName === current) return;
       el.textContent = newName;
       el.dataset.el = newName;
@@ -203,7 +203,7 @@ export function deleteNavItem(navId, e) {
       e.stopPropagation();
       const el = document.getElementById('nav-' + navId);
       const name = el ? el.textContent.trim() : navId;
-      if (!confirm('Διαγραφή "' + name + '" από το μενού;\nΠροσοχή: δεν διαγράφεται το περιεχόμενο!')) return;
+      if (!confirm('Î”Î¹Î±Î³ÏÎ±Ï†Î® "' + name + '" Î±Ï€ÏŒ Ï„Î¿ Î¼ÎµÎ½Î¿Ï;\nÎ ÏÎ¿ÏƒÎ¿Ï‡Î®: Î´ÎµÎ½ Î´Î¹Î±Î³ÏÎ¬Ï†ÎµÏ„Î±Î¹ Ï„Î¿ Ï€ÎµÏÎ¹ÎµÏ‡ÏŒÎ¼ÎµÎ½Î¿!')) return;
       const li = el ? el.closest('li') : null;
       if (li) li.style.display = 'none';
     }
@@ -213,7 +213,7 @@ export function renameCat(catId, e) {
       const header = document.querySelector('#page-egk .egk-overview-card .egk-overview-header[onclick*="' + catId + '"] .egk-overview-title');
       if (!header) return;
       const current = header.textContent.trim();
-      const newName = prompt('Νέο όνομα:', current);
+      const newName = prompt('ÎÎ­Î¿ ÏŒÎ½Î¿Î¼Î±:', current);
       if (!newName || newName === current) return;
       header.textContent = newName;
       // Also update dropdown
@@ -224,7 +224,7 @@ export function renameCat(catId, e) {
 
 export function deleteCat(catId, e) {
       e.stopPropagation();
-      if (!confirm('Διαγραφή κατηγορίας;')) return;
+      if (!confirm('Î”Î¹Î±Î³ÏÎ±Ï†Î® ÎºÎ±Ï„Î·Î³Î¿ÏÎ¯Î±Ï‚;')) return;
       // Hide in overview
       const card = document.querySelector('#page-egk .egk-overview-card:has([onclick*="' + catId + '"])');
       if (card) card.style.display = 'none';
@@ -238,7 +238,7 @@ export function renameSubpage(pageId, e) {
       const links = document.querySelectorAll('a[onclick*="' + pageId + '"]');
       if (!links.length) return;
       const current = links[0].textContent.trim();
-      const newName = prompt('Νέο όνομα:', current);
+      const newName = prompt('ÎÎ­Î¿ ÏŒÎ½Î¿Î¼Î±:', current);
       if (!newName || newName === current) return;
       links.forEach(l => { l.textContent = newName; });
       // Update page title
@@ -249,7 +249,7 @@ export function renameSubpage(pageId, e) {
 
 export function deleteSubpage(pageId, e) {
       e.stopPropagation();
-      if (!confirm('Διαγραφή υποκατηγορίας;')) return;
+      if (!confirm('Î”Î¹Î±Î³ÏÎ±Ï†Î® Ï…Ï€Î¿ÎºÎ±Ï„Î·Î³Î¿ÏÎ¯Î±Ï‚;')) return;
       // Hide the li in overview
       const li = document.querySelector('.egk-overview-links li:has(a[onclick*="' + pageId + '"])');
       if (li) li.style.display = 'none';
@@ -260,7 +260,7 @@ export function deleteSubpage(pageId, e) {
 
 export function addSubpage(btn, e) {
       e.stopPropagation();
-      const title = prompt('Τίτλος νέας υποκατηγορίας:');
+      const title = prompt('Î¤Î¯Ï„Î»Î¿Ï‚ Î½Î­Î±Ï‚ Ï…Ï€Î¿ÎºÎ±Ï„Î·Î³Î¿ÏÎ¯Î±Ï‚:');
       if (!title) return;
       const ul = btn.closest('ul');
       const addLi = btn.closest('li');
@@ -269,8 +269,8 @@ export function addSubpage(btn, e) {
       newLi.innerHTML = `
         <a onclick="navigate('cms-${slug}')">${title}</a>
         <div class="egk-link-ctrl" style="display:flex;">
-          <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('cms-${slug}',event)" title="Μετονομασία">✏️</button>
-          <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('cms-${slug}',event)" title="Διαγραφή">✕</button>
+          <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('cms-${slug}',event)" title="ÎœÎµÏ„Î¿Î½Î¿Î¼Î±ÏƒÎ¯Î±">âœï¸</button>
+          <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('cms-${slug}',event)" title="Î”Î¹Î±Î³ÏÎ±Ï†Î®">âœ•</button>
         </div>
       `;
       ul.insertBefore(newLi, addLi);
@@ -284,7 +284,7 @@ export function addSubpage(btn, e) {
 
 export function addSubpageToDropdown(parentCat, e) {
       e.stopPropagation();
-      const title = prompt('Τίτλος νέας υποσελίδας:');
+      const title = prompt('Î¤Î¯Ï„Î»Î¿Ï‚ Î½Î­Î±Ï‚ Ï…Ï€Î¿ÏƒÎµÎ»Î¯Î´Î±Ï‚:');
       if (!title) return;
       const slug = parentCat + '-new-' + Date.now();
       // Add to subdropdown in nav
@@ -303,8 +303,8 @@ export function addSubpageToDropdown(parentCat, e) {
         newLi.style.cssText = 'display:flex;align-items:center;justify-content:space-between;';
         newLi.innerHTML = `<a onclick="navigate('cms-${slug}')">${title}</a>
           <div class="egk-link-ctrl" style="display:flex;gap:2px;margin-left:4px;">
-            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('cms-${slug}',event)">✏️</button>
-            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('cms-${slug}',event)">✕</button>
+            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('cms-${slug}',event)">âœï¸</button>
+            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('cms-${slug}',event)">âœ•</button>
           </div>`;
         overviewUl.insertBefore(newLi, addLi);
       }
@@ -318,7 +318,7 @@ export function addSubpageToDropdown(parentCat, e) {
 
 export function addSubpageToNav(navId, e) {
       e.stopPropagation();
-      const title = prompt('Τίτλος νέας υποσελίδας:');
+      const title = prompt('Î¤Î¯Ï„Î»Î¿Ï‚ Î½Î­Î±Ï‚ Ï…Ï€Î¿ÏƒÎµÎ»Î¯Î´Î±Ï‚:');
       if (!title) return;
       const slug = 'sub-' + navId + '-' + Date.now();
       const dropdown = document.getElementById('dropdown-' + navId);
@@ -330,8 +330,8 @@ export function addSubpageToNav(navId, e) {
         <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
           <a onclick="navigate('cms-${slug}')">${title}</a>
           <div class="sub-admin-ctrl" style="display:none;">
-            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('cms-${slug}',event)">✏️</button>
-            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('cms-${slug}',event)">✕</button>
+            <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameSubpage('cms-${slug}',event)">âœï¸</button>
+            <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteSubpage('cms-${slug}',event)">âœ•</button>
           </div>
         </div>
       `;
@@ -345,9 +345,9 @@ export function addSubpageToNav(navId, e) {
     }
 
 export function addCategory() {
-      const title = prompt('Τίτλος νέας κατηγορίας:');
+      const title = prompt('Î¤Î¯Ï„Î»Î¿Ï‚ Î½Î­Î±Ï‚ ÎºÎ±Ï„Î·Î³Î¿ÏÎ¯Î±Ï‚:');
       if (!title) return;
-      const icon = prompt('Εικονίδιο (emoji):', '📄') || '📄';
+      const icon = prompt('Î•Î¹ÎºÎ¿Î½Î¯Î´Î¹Î¿ (emoji):', 'ðŸ“„') || 'ðŸ“„';
       const slug = 'cat-' + Date.now();
       const grid = document.querySelector('.egk-overview-grid');
       const addCard = document.querySelector('.egk-overview-grid .admin-only');
@@ -359,16 +359,16 @@ export function addCategory() {
           <h3 class="egk-overview-title">${title}</h3>
         </div>
         <div class="egk-admin-ctrl">
-          <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('cms-${slug}',event)">✏️</button>
-          <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('cms-${slug}',event)">✕</button>
+          <button class="admin-ctrl-btn admin-ctrl-edit" onclick="renameCat('cms-${slug}',event)">âœï¸</button>
+          <button class="admin-ctrl-btn admin-ctrl-del" onclick="deleteCat('cms-${slug}',event)">âœ•</button>
         </div>
         <ul class="egk-overview-links">
           <li class="admin-only" style="display:flex;">
-            <a onclick="addSubpage(this,event)" style="color:var(--green);font-weight:600;">➕ Νέα υποκατηγορία</a>
+            <a onclick="addSubpage(this,event)" style="color:var(--green);font-weight:600;">âž• ÎÎ­Î± Ï…Ï€Î¿ÎºÎ±Ï„Î·Î³Î¿ÏÎ¯Î±</a>
           </li>
         
             <li class="admin-only" style="display:none;padding:0.3rem 0;">
-              <a onclick="addSubpage(this,event)" style="color:var(--green);font-weight:600;font-size:0.78rem;cursor:pointer;">➕ Νέα υποκατηγορία</a>
+              <a onclick="addSubpage(this,event)" style="color:var(--green);font-weight:600;font-size:0.78rem;cursor:pointer;">âž• ÎÎ­Î± Ï…Ï€Î¿ÎºÎ±Ï„Î·Î³Î¿ÏÎ¯Î±</a>
             </li></ul>
       `;
       grid.insertBefore(newCard, addCard);
