@@ -3196,13 +3196,12 @@
           <form class="contact-form" onsubmit="handleSubmit(event)">
             <h3 class="contact-details-title" style="margin-bottom:1rem;" data-el="Στείλτε μας μήνυμα" data-en="Send us a message">Στείλτε μας μήνυμα</h3>
             <div class="contact-form-row">
-              <div class="form-field"><label data-el="Όνομα" data-en="First Name">Όνομα</label><input type="text" data-ph-el="Το όνομά σας" data-ph-en="Your first name" placeholder="Το όνομά σας"/></div>
-              <div class="form-field"><label data-el="Επώνυμο" data-en="Last Name">Επώνυμο</label><input type="text" data-ph-el="Το επώνυμό σας" data-ph-en="Your last name" placeholder="Το επώνυμό σας"/></div>
+              <div class="form-field"><label data-el="Όνομα" data-en="Name">Όνομα</label><input type="text" id="contactName" data-ph-el="Το όνομά σας" data-ph-en="Your name" placeholder="Το όνομά σας"/></div>
+              <div class="form-field"><label>Email</label><input type="email" id="contactEmail" placeholder="email@example.com"/></div>
             </div>
-            <div class="form-field"><label data-el="Τηλέφωνο" data-en="Phone">Τηλέφωνο</label><input type="tel" placeholder="+30 ..."/></div>
-            <div class="form-field"><label>Email</label><input type="email" placeholder="email@example.com"/></div>
-            <div class="form-field"><label data-el="Μήνυμα" data-en="Message">Μήνυμα</label><textarea data-ph-el="Πώς μπορούμε να σας βοηθήσουμε;" data-ph-en="How can we help you?" placeholder="Πώς μπορούμε να σας βοηθήσουμε;" style="min-height:90px;"></textarea></div>
-            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;" data-el="Αποστολή μηνύματος" data-en="Send message">Αποστολή μηνύματος</button>
+            <div class="form-field"><label data-el="Θέμα" data-en="Subject">Θέμα</label><input type="text" id="contactSubject" data-ph-el="Θέμα μηνύματος" data-ph-en="Subject" placeholder="Θέμα μηνύματος"/></div>
+            <div class="form-field"><label data-el="Μήνυμα" data-en="Message">Μήνυμα</label><textarea id="contactMessage" data-ph-el="Πώς μπορούμε να σας βοηθήσουμε;" data-ph-en="How can we help you?" placeholder="Πώς μπορούμε να σας βοηθήσουμε;" style="min-height:120px;"></textarea></div>
+            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;" data-el="Αποστολή" data-en="Send">Αποστολή</button>
           </form>
         </div>
       </div>
