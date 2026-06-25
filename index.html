@@ -1341,52 +1341,71 @@
 
     /* ── ISOLOGISMOI ── */
     #page-iso { background: var(--bg); }
-    .iso-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .iso-card {
+    .iso-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 2rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .iso-row {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.2rem;
       background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      transition: box-shadow 0.2s, transform 0.2s;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+      cursor: pointer;
     }
-    .iso-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-2px); }
-    .iso-card-icon { font-size: 2rem; flex-shrink: 0; }
-    .iso-card-info { flex: 1; }
-    .iso-card-year { font-size: 0.75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-    .iso-card-title { font-size: 0.95rem; font-weight: 600; color: var(--ink); margin: 0.2rem 0 0.6rem; }
-    .iso-card-btn {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      background: var(--green); color: #fff;
-      border: none; border-radius: 5px;
-      padding: 0.4rem 0.9rem; font-size: 0.78rem;
-      cursor: pointer; text-decoration: none;
-      transition: background 0.2s;
+    .iso-row:last-child { border-bottom: none; }
+    .iso-row:hover { background: var(--green-lt); }
+    .iso-row-icon { font-size: 1.4rem; flex-shrink: 0; color: #c0392b; }
+    .iso-row-info { flex: 1; }
+    .iso-row-year { font-size: 0.72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .iso-row-title { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
+    .iso-row-btn {
+      font-size: 0.78rem; color: var(--green); font-weight: 600;
+      text-decoration: none; white-space: nowrap;
+      padding: 0.3rem 0.7rem; border: 1px solid var(--green);
+      border-radius: 4px; transition: background 0.2s, color 0.2s;
     }
-    .iso-card-btn:hover { background: #1a5c2a; }
+    .iso-row-btn:hover { background: var(--green); color: #fff; }
     .iso-del-btn {
       background: none; border: none; color: var(--muted);
-      cursor: pointer; font-size: 0.8rem; padding: 0.3rem;
+      cursor: pointer; font-size: 0.8rem; padding: 0.3rem 0.5rem;
       border-radius: 4px; transition: color 0.2s;
     }
     .iso-del-btn:hover { color: #c0392b; }
     .iso-upload-area {
-      border: 2px dashed var(--border);
-      border-radius: 8px; padding: 2rem;
+      border: 2px dashed var(--border); border-radius: 8px; padding: 2rem;
       text-align: center; cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      margin-bottom: 1rem;
+      transition: border-color 0.2s, background 0.2s; margin-bottom: 1rem;
     }
     .iso-upload-area:hover { border-color: var(--green); background: var(--green-lt); }
     .iso-empty { color: var(--muted); font-size: 0.9rem; text-align: center; padding: 3rem; }
-    @media(max-width:768px) { .iso-grid { grid-template-columns: 1fr; } }
+
+    /* ── CERTIFICATES (new) ── */
+    #page-pist { background: var(--bg); }
+    .cert-new-grid { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 2rem; }
+    .cert-new-card {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .cert-new-card:last-child { border-bottom: none; }
+    .cert-new-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .cert-new-info { flex: 1; }
+    .cert-new-title { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.2rem; }
+    .cert-new-desc { font-size: 0.85rem; color: var(--muted); }
+    .cert-new-btn {
+      font-size: 0.78rem; color: var(--green); font-weight: 600;
+      text-decoration: none; white-space: nowrap;
+      padding: 0.3rem 0.7rem; border: 1px solid var(--green);
+      border-radius: 4px; transition: background 0.2s, color 0.2s; cursor: pointer;
+      background: none;
+    }
+    .cert-new-btn:hover { background: var(--green); color: #fff; }
+    .cert-new-del {
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 0.8rem; padding: 0.3rem 0.5rem;
+      border-radius: 4px; transition: color 0.2s;
+    }
+    .cert-new-del:hover { color: #c0392b; }
   </style>
 </head>
 <body>
@@ -2967,33 +2986,49 @@
   <!-- ΠΙΣΤΟΠΟΙΗΤΙΚΑ -->
   <div class="page" id="page-pist">
     <div class="page-inner">
-      <div class="page-header"><p class="section-label" data-ck="ck264" data-editable="true" contenteditable="false">Αναγνώριση</p><h2 class="section-title" data-ck="ck237" data-editable="true" contenteditable="false">Πιστοποιητικά &amp; Διακρίσεις</h2><p class="section-intro" data-ck="ck269" data-editable="true" contenteditable="false">Ο Αγροτικός Συνεταιρισμός Πέλλας διαθέτει τις πιο αυστηρές διεθνείς πιστοποιήσεις ασφάλειας τροφίμων.</p></div>
-      <div class="cert-grid" id="certGrid">
-        <div class="cert-card">
-          <div class="cert-img-wrap"><span class="cert-ph">🏆</span></div>
-          <input class="cert-name admin-field-input" readonly value="IFS Food"/>
-          <input class="cert-desc admin-field-input" readonly value="Version 8 — International Featured Standard"/>
-          <div class="cert-year" contenteditable="false" data-editable="true" data-ck="ck11">2024</div>
-        </div>
-        <div class="cert-card">
-          <div class="cert-img-wrap"><span class="cert-ph">✅</span></div>
-          <input class="cert-name admin-field-input" readonly value="FSSC 22000"/>
-          <input class="cert-desc admin-field-input" readonly value="Food Safety Version 6"/>
-          <div class="cert-year" contenteditable="false" data-editable="true" data-ck="ck12">2024</div>
-        </div>
-        <div class="cert-card">
-          <div class="cert-img-wrap"><span class="cert-ph">🌍</span></div>
-          <input class="cert-name admin-field-input" readonly value="EN ISO 22000"/>
-          <input class="cert-desc admin-field-input" readonly value="Food Safety Management — 2018"/>
-          <div class="cert-year" contenteditable="false" data-editable="true" data-ck="ck13">2024</div>
-        </div>
-        <div class="cert-card" id="cert-add-card" style="cursor:pointer;border:1px dashed var(--border);background:var(--bg);" onclick="addCert()">
-          <div class="cert-img-wrap" style="background:var(--green-lt);"><span class="cert-ph" style="opacity:0.6;">➕</span></div>
-          <div class="cert-name" style="color:var(--muted);font-size:0.82rem;font-weight:400;">Προσθήκη πιστοποιητικού</div>
-        </div>
+      <div class="page-header">
+        <p class="section-label" data-ck="ck264" data-editable="true" contenteditable="false">Αναγνώριση</p>
+        <h2 class="section-title" data-ck="ck237" data-editable="true" contenteditable="false">Πιστοποιητικά &amp; Διακρίσεις</h2>
+        <p class="section-intro" data-ck="ck269" data-editable="true" contenteditable="false">Ο Αγροτικός Συνεταιρισμός Πέλλας διαθέτει τις πιο αυστηρές διεθνείς πιστοποιήσεις ασφάλειας τροφίμων.</p>
+      </div>
+      <div class="admin-only" style="display:none; margin-bottom:1.5rem;">
+        <button class="btn-primary" onclick="openCertUpload()" style="display:flex; align-items:center; gap:0.5rem;">🏆 + Νέο Πιστοποιητικό</button>
+      </div>
+      <div class="cert-new-grid" id="certNewGrid">
+        <div class="iso-empty" id="certEmpty">Δεν υπάρχουν πιστοποιητικά ακόμα.</div>
       </div>
     </div>
     <footer style="margin:0 2rem;">© 2025 <span>A.C. Pella</span> · Αγροτικός Συνεταιρισμός Πέλλας</footer>
+  </div>
+
+  <!-- Modal Πιστοποιητικού -->
+  <div id="certModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:10px; width:90%; max-width:480px; padding:2rem; position:relative;">
+      <button onclick="closeCertModal()" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;">✕</button>
+      <h3 style="margin:0 0 1.5rem; font-size:1.1rem;">Νέο Πιστοποιητικό / Διάκριση</h3>
+      <div style="display:flex; flex-direction:column; gap:1rem;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:600; color:#555; display:block; margin-bottom:0.4rem;">Τίτλος</label>
+          <input id="certTitle" type="text" placeholder="π.χ. IFS Food Version 8" style="width:100%; padding:0.6rem 0.8rem; border:1px solid #ddd; border-radius:6px; font-size:0.9rem; box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:600; color:#555; display:block; margin-bottom:0.4rem;">Περιγραφή</label>
+          <textarea id="certDesc" placeholder="Σύντομη περιγραφή..." style="width:100%; padding:0.6rem 0.8rem; border:1px solid #ddd; border-radius:6px; font-size:0.9rem; box-sizing:border-box; min-height:80px; resize:vertical;"></textarea>
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:600; color:#555; display:block; margin-bottom:0.4rem;">Αρχείο PDF (προαιρετικό)</label>
+          <div class="iso-upload-area" onclick="document.getElementById('certPdfInput').click()">
+            <div style="font-size:2rem; margin-bottom:0.5rem;">📄</div>
+            <div id="certPdfLabel" style="font-size:0.85rem; color:#666;">Κλικ για επιλογή PDF</div>
+          </div>
+          <input type="file" id="certPdfInput" accept=".pdf" style="display:none;" onchange="handleCertPdf(this)"/>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; margin-top:1.5rem; justify-content:flex-end;">
+        <button onclick="closeCertModal()" style="padding:0.6rem 1.2rem; border:1px solid #ddd; border-radius:6px; background:#fff; cursor:pointer;">Ακύρωση</button>
+        <button onclick="submitCert()" id="certSubmitBtn" style="padding:0.6rem 1.4rem; background:var(--green); color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Αποθήκευση</button>
+      </div>
+    </div>
   </div>
 
   <!-- GALLERY -->
@@ -3083,7 +3118,7 @@
       <div class="admin-only" style="display:none; margin-bottom:1.5rem;">
         <button class="btn-primary" onclick="openIsoUpload()" style="display:flex; align-items:center; gap:0.5rem;">📄 + Νέος Ισολογισμός</button>
       </div>
-      <div class="iso-grid" id="isoGrid">
+      <div class="iso-list" id="isoGrid">
         <div class="iso-empty" id="isoEmpty">Δεν υπάρχουν ισολογισμοί ακόμα.</div>
       </div>
     </div>
@@ -3665,6 +3700,7 @@
       loadContentFromAPI();
       loadAnnouncements();
       loadIsologismoi();
+      loadCertificates();
       loadGalleryFromAPI();
       loadHomeAnnouncements();
       loadCMSPages(); // Load dynamic pages on startup
@@ -4814,17 +4850,18 @@
         const grid = document.getElementById('isoGrid');
         const empty = document.getElementById('isoEmpty');
         if (!grid) return;
-        grid.querySelectorAll('.iso-card').forEach(c => c.remove());
+        grid.querySelectorAll('.iso-row').forEach(c => c.remove());
         if (!items.length) {
           if (empty) empty.style.display = 'block';
           return;
         }
         if (empty) empty.style.display = 'none';
         items.forEach(item => {
-          const card = document.createElement('div');
-          card.className = 'iso-card';
-          card.innerHTML = '<div class="iso-card-icon">📄</div><div class="iso-card-info"><div class="iso-card-year">' + item.year + '</div><div class="iso-card-title">' + item.title + '</div><a class="iso-card-btn" href="#" onclick="downloadIso(' + item.id + ', event)">⬇ Ληψη PDF</a></div>' + (isAdmin ? '<button class="iso-del-btn admin-only" onclick="deleteIso(' + item.id + ')" title="Διαγραφη">✕</button>' : '');
-          grid.appendChild(card);
+          const row = document.createElement('div');
+          row.className = 'iso-row';
+          row.onclick = (e) => { if (!e.target.classList.contains('iso-del-btn')) downloadIso(item.id, e); };
+          row.innerHTML = '<div class="iso-row-icon">📄</div><div class="iso-row-info"><div class="iso-row-year">' + item.year + '</div><div class="iso-row-title">' + item.title + '</div></div><a class="iso-row-btn" href="#" onclick="downloadIso(' + item.id + ', event)">⬇ Λήψη PDF</a>' + (isAdmin ? '<button class="iso-del-btn" onclick="deleteIso(' + item.id + ')" title="Διαγραφή">✕</button>' : '');
+          grid.appendChild(row);
         });
       } catch(e) { console.error('loadIsologismoi error:', e); }
     }
@@ -4871,6 +4908,7 @@
         if (res.ok) {
           closeIsoModal();
           loadIsologismoi();
+      loadCertificates();
         } else {
           alert('Σφαλμα αποθηκευσης!');
         }
@@ -4889,7 +4927,112 @@
           headers: { 'Authorization': 'Bearer ' + adminToken }
         });
         loadIsologismoi();
+      loadCertificates();
       } catch(e) {}
+    }
+
+
+    /* ════════════════════════════════
+       7. ΠΙΣΤΟΠΟΙΗΤΙΚΑ
+    ════════════════════════════════ */
+    let certPdfData = null;
+
+    async function loadCertificates() {
+      try {
+        const res = await fetch(API_URL + '/api/certificates');
+        const items = await res.json();
+        const grid = document.getElementById('certNewGrid');
+        const empty = document.getElementById('certEmpty');
+        if (!grid) return;
+        grid.querySelectorAll('.cert-new-card').forEach(c => c.remove());
+        if (!items.length) {
+          if (empty) empty.style.display = 'block';
+          return;
+        }
+        if (empty) empty.style.display = 'none';
+        items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'cert-new-card';
+          card.innerHTML = '<div class="cert-new-icon">🏆</div><div class="cert-new-info"><div class="cert-new-title">' + item.title + '</div>' + (item.description ? '<div class="cert-new-desc">' + item.description + '</div>' : '') + '</div>' + '<button class="cert-new-btn" onclick="downloadCert(' + item.id + ', event)">📄 PDF</button>' + (isAdmin ? '<button class="cert-new-del" onclick="deleteCert(' + item.id + ')">✕</button>' : '');
+          grid.appendChild(card);
+        });
+      } catch(e) { console.error('loadCertificates error:', e); }
+    }
+
+    function openCertUpload() {
+      document.getElementById('certModal').style.display = 'flex';
+      document.getElementById('certTitle').value = '';
+      document.getElementById('certDesc').value = '';
+      document.getElementById('certPdfLabel').textContent = 'Κλικ για επιλογη PDF';
+      certPdfData = null;
+    }
+
+    function closeCertModal() {
+      document.getElementById('certModal').style.display = 'none';
+    }
+
+    function handleCertPdf(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        certPdfData = e.target.result;
+        document.getElementById('certPdfLabel').textContent = '✓ ' + file.name;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function submitCert() {
+      const title = document.getElementById('certTitle').value.trim();
+      const description = document.getElementById('certDesc').value.trim();
+      if (!title) { alert('Συμπληρωσε τιτλο!'); return; }
+      const btn = document.getElementById('certSubmitBtn');
+      btn.textContent = 'Αποθηκευση...';
+      btn.disabled = true;
+      try {
+        const res = await fetch(API_URL + '/api/certificates', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
+          body: JSON.stringify({ title, description, pdf_data: certPdfData })
+        });
+        if (res.ok) {
+          closeCertModal();
+          loadCertificates();
+        } else {
+          alert('Σφαλμα αποθηκευσης!');
+        }
+      } catch(e) { alert('Σφαλμα: ' + e.message); }
+      btn.textContent = 'Αποθηκευση';
+      btn.disabled = false;
+    }
+
+    async function deleteCert(id) {
+      if (!confirm('Διαγραφη πιστοποιητικου;')) return;
+      try {
+        await fetch(API_URL + '/api/certificates/' + id, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + adminToken }
+        });
+        loadCertificates();
+      } catch(e) {}
+    }
+
+    async function downloadCert(id, e) {
+      if (e) e.preventDefault();
+      try {
+        const res = await fetch(API_URL + '/api/certificates/' + id);
+        const data = await res.json();
+        if (!data.pdf_data) return;
+        const base64 = data.pdf_data.split(',')[1];
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        const blob = new Blob([bytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = data.title + '.pdf'; a.click();
+        URL.revokeObjectURL(url);
+      } catch(err) { alert('Σφαλμα ληψης PDF!'); }
     }
 
     async function downloadIso(id, e) {
