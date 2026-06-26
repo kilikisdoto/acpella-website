@@ -1379,30 +1379,33 @@
 
     /* ── CERTIFICATES (new) ── */
     #page-pist { background: var(--bg); }
-    .cert-new-grid { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 2rem; }
+    .cert-new-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 2rem; }
     .cert-new-card {
       display: flex; align-items: center; gap: 1rem;
-      padding: 1.2rem 1.4rem;
+      padding: 1.1rem 1.3rem;
       background: var(--white);
-      border-bottom: 1px solid var(--border);
-      position: relative;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      border-radius: 8px;
+      transition: box-shadow 0.2s, transform 0.15s;
     }
-    .cert-new-card:last-child { border-bottom: none; }
-    .cert-new-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .cert-new-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.07); transform: translateX(2px); }
+    .cert-new-icon { font-size: 1.8rem; flex-shrink: 0; width: 40px; text-align: center; }
     .cert-new-info { flex: 1; }
-    .cert-new-title { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.2rem; }
-    .cert-new-desc { font-size: 0.85rem; color: var(--muted); }
+    .cert-new-title { font-size: 0.98rem; font-weight: 600; color: var(--ink); margin-bottom: 0.15rem; }
+    .cert-new-desc { font-size: 0.83rem; color: var(--muted); }
     .cert-new-btn {
+      display: flex; align-items: center; gap: 0.4rem;
       font-size: 0.78rem; color: var(--green); font-weight: 600;
       text-decoration: none; white-space: nowrap;
-      padding: 0.3rem 0.7rem; border: 1px solid var(--green);
-      border-radius: 4px; transition: background 0.2s, color 0.2s; cursor: pointer;
+      padding: 0.4rem 0.9rem; border: 1px solid var(--green);
+      border-radius: 5px; transition: background 0.2s, color 0.2s; cursor: pointer;
       background: none;
     }
     .cert-new-btn:hover { background: var(--green); color: #fff; }
     .cert-new-del {
       background: none; border: none; color: var(--muted);
-      cursor: pointer; font-size: 0.8rem; padding: 0.3rem 0.5rem;
+      cursor: pointer; font-size: 0.85rem; padding: 0.3rem 0.5rem;
       border-radius: 4px; transition: color 0.2s;
     }
     .cert-new-del:hover { color: #c0392b; }
@@ -4911,7 +4914,7 @@
         items.forEach(item => {
           const card = document.createElement('div');
           card.className = 'cert-new-card';
-          card.innerHTML = '<div class="cert-new-icon">🏆</div><div class="cert-new-info"><div class="cert-new-title">' + item.title + '</div>' + (item.description ? '<div class="cert-new-desc">' + item.description + '</div>' : '') + '</div>' + '<button class="cert-new-btn" onclick="downloadCert(' + item.id + ', event)">📄 PDF</button>' + (isAdmin ? '<button class="cert-new-del" onclick="deleteCert(' + item.id + ')">✕</button>' : '');
+          card.innerHTML = '<div class="cert-new-icon">🏆</div><div class="cert-new-info"><div class="cert-new-title">' + item.title + '</div>' + (item.description ? '<div class="cert-new-desc">' + item.description + '</div>' : '') + '</div>' + '<button class="cert-new-btn" onclick="downloadCert(' + item.id + ', event)">⬇ PDF</button>' + (isAdmin ? '<button class="cert-new-del" onclick="deleteCert(' + item.id + ')">✕</button>' : '');
           grid.appendChild(card);
         });
       } catch(e) { console.error('loadCertificates error:', e); }
