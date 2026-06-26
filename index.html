@@ -4313,49 +4313,7 @@
       document.getElementById(`fph-${idx}`).style.display = 'none';
     }
 
-    /* ════════════════════════════════
-       2. ΠΙΣΤΟΠΟΙΗΤΙΚΑ
-    ════════════════════════════════ */
-    const defaultCerts = [
-      { name: 'GlobalG.A.P.', desc: 'Πιστοποίηση ορθής γεωργικής πρακτικής', year: '2024', icon: '🌍' },
-      { name: 'ISO 22000',    desc: 'Διαχείριση ασφάλειας τροφίμων',          year: '2023', icon: '✅' },
-      { name: 'Bio Hellas',   desc: 'Βιολογική καλλιέργεια — τμήμα αγρών',   year: '2022', icon: '🌱' },
-      { name: 'HACCP',        desc: 'Σύστημα ανάλυσης κινδύνων τροφίμων',    year: '2024', icon: '🛡️' },
-    ];
-    let certCount = 0;
-    const cgrid = document.getElementById('certGrid');
-
-    function renderCert(c, id) {
-      const card = document.createElement('div');
-      card.className = 'cert-card'; card.id = `cert-${id}`;
-      card.innerHTML = `
-        <div class="cert-img-wrap">
-          <input type="file" accept="image/*" onchange="setCertImg(this,${id})"/>
-          <span class="cert-ph" id="cph-${id}">${c.icon}</span>
-          <img id="cimg-${id}" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover"/>
-        </div>
-        <input class="cert-name admin-field-input" readonly value="${c.name}" placeholder="Όνομα…"/>
-        <input class="cert-desc admin-field-input" readonly value="${c.desc}" placeholder="Περιγραφή…"/>
-        <div class="cert-year" contenteditable="false" data-editable="true" data-ck="ck19">${c.year}</div>
-        <button class="btn-del-cert" onclick="deleteCert(${id})">✕</button>`;
-      cgrid.appendChild(card);
-    }
-    defaultCerts.forEach(c => renderCert(c, ++certCount));
-
-    function addCert() {
-      renderCert({ name: 'Νέο Πιστοποιητικό', desc: 'Περιγραφή…', year: new Date().getFullYear().toString(), icon: '🏅' }, ++certCount);
-      document.getElementById(`cert-${certCount}`).querySelector('.cert-name').focus();
-    }
-    function setCertImg(input, id) {
-      const f = input.files[0]; if (!f) return;
-      const url = URL.createObjectURL(f);
-      document.getElementById(`cimg-${id}`).src = url;
-      document.getElementById(`cimg-${id}`).style.display = 'block';
-      document.getElementById(`cph-${id}`).style.display = 'none';
-    }
-    function deleteCert(id) {
-      const c = document.getElementById(`cert-${id}`); if (c) c.remove();
-    }
+    /* ΠΙΣΤΟΠΟΙΗΤΙΚΑ — handled by API (see section 7) */
 
     /* ════════════════════════════════
        3. PHOTO GALLERY
