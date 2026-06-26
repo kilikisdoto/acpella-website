@@ -3451,6 +3451,9 @@
       document.querySelectorAll('.admin-only').forEach(el => {
         el.style.display = '';
       });
+      // Re-render iso and cert lists to show delete buttons
+      loadIsologismoi();
+      loadCertificates();
       // Unlock cert inputs
       document.querySelectorAll('.admin-field-input').forEach(el => {
         el.removeAttribute('readonly');
