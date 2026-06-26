@@ -5174,20 +5174,18 @@
       }
     }
 
-  </script>
-</body>
-</html>
+
     /* ════════════════════════════════
        MOBILE NAV
     ════════════════════════════════ */
     function toggleMobileNav() {
-      const nav = document.getElementById('mobileNav');
-      const overlay = document.getElementById('mobileNavOverlay');
-      const burger = document.getElementById('navBurger');
+      var nav = document.getElementById('mobileNav');
+      var overlay = document.getElementById('mobileNavOverlay');
+      var burger = document.getElementById('navBurger');
       if (nav.classList.contains('open')) {
         closeMobileNav();
       } else {
-        const desktopLogo = document.querySelector('.nav-logo-img img');
+        var desktopLogo = document.querySelector('.nav-logo-img img');
         if (desktopLogo) document.getElementById('mobileNavLogo').src = desktopLogo.src;
         buildMobileNav();
         nav.classList.add('open');
@@ -5205,12 +5203,11 @@
     }
 
     function buildMobileNav() {
-      const container = document.getElementById('mobileNavItems');
+      var container = document.getElementById('mobileNavItems');
       container.innerHTML = '';
+      var lang = (typeof currentLang !== 'undefined') ? currentLang : 'el';
 
-      const lang = (typeof currentLang !== 'undefined') ? currentLang : 'el';
-
-      const navStructure = [
+      var navStructure = [
         { id: 'home', el: 'Αρχική', en: 'Home' },
         { id: 'egk', el: 'Εγκαταστάσεις', en: 'Facilities', children: [
           { id: 'egk-konservo', el: 'Κονσερβοποιείο', children: [
@@ -5220,105 +5217,83 @@
             { id: 'egk-konservo-perivallontiki', el: 'Περιβαλλοντική Πολιτική' },
             { id: 'egk-konservo-frouta', el: 'Φρούτα' },
             { id: 'egk-konservo-texnikes', el: 'Τεχνικές Προδιαγραφές' },
-            { id: 'egk-konservo-etiketes', el: 'Ετικέτες' },
+            { id: 'egk-konservo-etiketes', el: 'Ετικέτες' }
           ]},
           { id: 'egk-ekko', el: 'Εκκοκιστήριο', children: [
             { id: 'egk-ekko-genika', el: 'Γενικά' },
             { id: 'egk-ekko-skopos', el: 'Σκοπός & Όραμα' },
             { id: 'egk-ekko-paragogi', el: 'Παραγωγική Διαδικασία' },
             { id: 'egk-ekko-dynamikotita', el: 'Δυναμικότητα' },
-            { id: 'egk-ekko-poiotita', el: 'Ποιότητα' },
+            { id: 'egk-ekko-poiotita', el: 'Ποιότητα' }
           ]},
-          { id: 'egk-dialogi', el: 'Διαλογητήριο – Ψυγεία', children: [
+          { id: 'egk-dialogi', el: 'Διαλογητήριο Ψυγεία', children: [
             { id: 'egk-dialogi-genika', el: 'Γενικά' },
-            { id: 'egk-dialogi-poiotita', el: 'Ποιότητα' },
+            { id: 'egk-dialogi-poiotita', el: 'Ποιότητα' }
           ]},
           { id: 'egk-kentro', el: 'Κέντρο Εξυπηρέτησης Αγροτών', children: [
-            { id: 'egk-kentro-ypiresies', el: 'Υπηρεσίες' },
+            { id: 'egk-kentro-ypiresies', el: 'Υπηρεσίες' }
           ]},
-          { id: 'egk-dimitriaka', el: 'Δημητριακά – Ζωοτροφές' },
+          { id: 'egk-dimitriaka', el: 'Δημητριακά Ζωοτροφές' }
         ]},
-        { id: 'pist', el: 'Πιστοποιητικά & Διακρίσεις', en: 'Certifications' },
+        { id: 'pist', el: 'Πιστοποιητικά Διακρίσεις', en: 'Certifications' },
         { id: 'gallery', el: 'Photo Gallery', en: 'Photo Gallery' },
         { id: 'ann', el: 'Ανακοινώσεις', en: 'News' },
         { id: 'iso', el: 'Ισολογισμοί', en: 'Financial Reports' },
-        { id: 'contact', el: 'Επικοινωνία', en: 'Contact' },
+        { id: 'contact', el: 'Επικοινωνία', en: 'Contact' }
       ];
 
-      function addItem(item, depth) {
-        if (depth === 0) {
-          // Top level — clickable header
-          const wrapper = document.createElement('div');
-          wrapper.style.cssText = 'border-bottom:1px solid var(--bg);';
-          
-          const row = document.createElement('div');
-          row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.2rem;cursor:pointer;';
-          
-          const label = document.createElement('span');
-          label.style.cssText = 'font-size:0.9rem;font-weight:500;color:var(--ink);';
-          label.textContent = (lang === 'en' && item.en) ? item.en : item.el;
-          
-          row.appendChild(label);
-          
-          if (item.children) {
-            const arrow = document.createElement('span');
-            arrow.textContent = '›';
-            arrow.style.cssText = 'font-size:1.2rem;color:var(--muted);transition:transform 0.2s;';
-            row.appendChild(arrow);
-            
-            const sub = document.createElement('div');
-            sub.style.cssText = 'display:none;background:var(--bg);';
-            item.children.forEach(child => addChildItem(child, sub, 1));
-            
-            row.onclick = () => {
-              const isOpen = sub.style.display !== 'none';
-              sub.style.display = isOpen ? 'none' : 'block';
-              arrow.style.transform = isOpen ? '' : 'rotate(90deg)';
-            };
-            wrapper.appendChild(row);
-            wrapper.appendChild(sub);
-          } else {
-            row.onclick = () => { navigate(item.id); closeMobileNav(); };
-            wrapper.appendChild(row);
-          }
-          container.appendChild(wrapper);
-        }
-      }
-
-      function addChildItem(item, parent, depth) {
-        const row = document.createElement('div');
-        const indent = depth === 1 ? '2rem' : '2.8rem';
-        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1.2rem 0.7rem ' + indent + ';border-bottom:1px solid rgba(0,0,0,0.04);cursor:pointer;';
-        
-        const label = document.createElement('span');
-        label.style.cssText = 'font-size:' + (depth === 1 ? '0.85rem' : '0.8rem') + ';color:var(--ink);';
-        label.textContent = item.el;
-        row.appendChild(label);
-
-        if (item.children) {
-          const arrow = document.createElement('span');
+      function makeRow(label, hasChildren, depth, onClickFn) {
+        var row = document.createElement('div');
+        var pad = depth === 0 ? '1.2rem' : (depth === 1 ? '2rem' : '2.8rem');
+        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:0.8rem ' + pad + ';border-bottom:1px solid var(--bg);cursor:pointer;transition:background 0.15s;';
+        row.onmouseover = function() { this.style.background = 'var(--green-lt)'; };
+        row.onmouseout = function() { this.style.background = ''; };
+        var span = document.createElement('span');
+        span.style.cssText = 'font-size:' + (depth === 0 ? '0.92rem' : '0.83rem') + ';font-weight:' + (depth === 0 ? '500' : '400') + ';color:var(--ink);';
+        span.textContent = label;
+        row.appendChild(span);
+        if (hasChildren) {
+          var arrow = document.createElement('span');
           arrow.textContent = '›';
-          arrow.style.cssText = 'font-size:1rem;color:var(--muted);transition:transform 0.2s;';
+          arrow.style.cssText = 'font-size:1.1rem;color:var(--muted);transition:transform 0.2s;display:inline-block;';
           row.appendChild(arrow);
-          
-          const sub = document.createElement('div');
-          sub.style.cssText = 'display:none;background:var(--bg);';
-          item.children.forEach(child => addChildItem(child, sub, depth + 1));
-          
-          row.onclick = () => {
-            const isOpen = sub.style.display !== 'none';
-            sub.style.display = isOpen ? 'none' : 'block';
-            arrow.style.transform = isOpen ? '' : 'rotate(90deg)';
+          row.onclick = function() {
+            var sub = this.nextSibling;
+            if (sub) {
+              var open = sub.style.display !== 'none';
+              sub.style.display = open ? 'none' : 'block';
+              arrow.style.transform = open ? '' : 'rotate(90deg)';
+            }
           };
-          parent.appendChild(row);
-          parent.appendChild(sub);
         } else {
-          row.onclick = () => { navigate(item.id); closeMobileNav(); };
-          parent.appendChild(row);
+          row.onclick = onClickFn;
         }
+        return row;
       }
 
-      navStructure.forEach(item => addItem(item, 0));
+      function renderItems(items, parent, depth) {
+        items.forEach(function(item) {
+          var label = (lang === 'en' && item.en) ? item.en : item.el;
+          if (item.children) {
+            var row = makeRow(label, true, depth, null);
+            parent.appendChild(row);
+            var sub = document.createElement('div');
+            sub.style.display = 'none';
+            sub.style.background = 'var(--bg)';
+            renderItems(item.children, sub, depth + 1);
+            parent.appendChild(sub);
+          } else {
+            var row = makeRow(label, false, depth, (function(id) {
+              return function() { navigate(id); closeMobileNav(); };
+            })(item.id));
+            parent.appendChild(row);
+          }
+        });
+      }
+
+      renderItems(navStructure, container, 0);
     }
 
-
+  </script>
+</body>
+</html>
