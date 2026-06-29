@@ -243,6 +243,7 @@ async function loadAnnouncements() {
 }
 
 async function deleteAnnouncement(id) {
+  if (!confirm('Διαγραφή ανακοίνωσης;')) return;
   try {
     await fetch(API_URL + '/api/announcements/' + id, {
       method: 'DELETE',
