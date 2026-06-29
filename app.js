@@ -226,7 +226,7 @@ async function loadAnnouncements() {
       card.dataset.id = ann.id;
       const dateFormatted = new Date(ann.date).toLocaleDateString('el-GR', { day:'numeric', month:'long', year:'numeric' });
       const imgHtml = ann.image ? `<img src="${ann.image}" style="width:100%;max-height:280px;object-fit:cover;border-radius:6px;margin-top:0.8rem;"/>` : '';
-      const delBtn = `<button class="btn-del-ann admin-only" onclick="deleteAnnouncement(${ann.id})" style="display:${isAdmin ? 'flex' : 'none'};position:absolute;top:1rem;right:1rem;background:#c0392b;color:#fff;border:none;border-radius:50%;width:28px;height:28px;align-items:center;justify-content:center;cursor:pointer;font-size:0.75rem;">✕</button>`;
+      const delBtn = `<button class="btn-del-ann admin-only" data-ann-id="${ann.id}" style="display:${isAdmin ? 'flex' : 'none'};position:absolute;top:1rem;right:1rem;background:#c0392b;color:#fff;border:none;border-radius:50%;width:28px;height:28px;align-items:center;justify-content:center;cursor:pointer;font-size:0.75rem;">✕</button>`;
       card.style.position = 'relative';
       card.innerHTML = `
         ${delBtn}
@@ -236,6 +236,15 @@ async function loadAnnouncements() {
         ${imgHtml}
       `;
       container.appendChild(card);
+      const delBtnEl = card.querySelector('.btn-del-ann');
+      if (delBtnEl) delBtnEl.addEventListener('click', function() {
+        const annId = parseInt(this.dataset.annId);
+        if (!confirm('Διαγραφή ανακοίνωσης;')) return;
+        fetch(API_URL + '/api/announcements/' + annId, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + adminToken }
+        }).then(() => loadAnnouncements()).catch(e => console.error(e));
+      });
     });
   } catch(e) {
     console.error('loadAnnouncements error:', e);
