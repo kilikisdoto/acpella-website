@@ -2,8 +2,6 @@
    ADMIN PANEL
 ════════════════════════════════ */
 const API_URL = 'https://acpella-backend-production.up.railway.app';
-const ADMIN_USER = 'admin.acpella';
-const ADMIN_PASS = 'acpella123';
 let isAdmin = false;
 let adminToken = null;
 
@@ -40,14 +38,8 @@ async function doAdminLogin() {
       document.getElementById('adminPass').focus();
     }
   } catch(e) {
-    // Fallback to local check if API down
-    if (user === ADMIN_USER && pass === ADMIN_PASS) {
-      adminToken = 'acpella-admin-2025';
-      document.getElementById('adminOverlay').classList.remove('open');
-      enableAdminMode();
-    } else {
-      document.getElementById('adminError').classList.add('show');
-    }
+    document.getElementById('adminError').classList.add('show');
+    console.error('Login error:', e);
   }
 }
 
