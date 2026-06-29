@@ -3484,11 +3484,61 @@
       <span class="admin-bar-hint">Κάνε κλικ σε οποιοδήποτε κείμενο για επεξεργασία</span>
     </div>
     <div class="admin-bar-right">
-      <button class="admin-btn" onclick="openCMS()" style="background:#6c5ce7;color:#fff;">📄 Σελίδες</button>
-      <button class="admin-btn admin-btn-add-photo" onclick="document.getElementById('adminPhotoInput').click()">📷 Προσθήκη Φωτογραφίας</button>
-      <input type="file" id="adminPhotoInput" accept="image/*" multiple style="display:none" onchange="adminAddPhotos(this)"/>
+      <button class="admin-btn" onclick="openAdminDashboard()" style="background:#6c5ce7;color:#fff;">📋 Dashboard</button>
       <button class="admin-btn admin-btn-save" onclick="adminSave()">💾 Αποθήκευση</button>
       <button class="admin-btn admin-btn-logout" onclick="adminLogout()">Αποσύνδεση</button>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD MODAL -->
+  <div id="adminDashboard" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9998;align-items:flex-start;justify-content:center;padding-top:60px;overflow-y:auto;">
+    <div style="background:#fff;border-radius:12px;width:90%;max-width:600px;padding:2rem;position:relative;margin-bottom:2rem;">
+      <button onclick="closeAdminDashboard()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#666;">✕</button>
+      <h2 style="margin:0 0 0.3rem;font-size:1.2rem;color:#1a1a1a;">📋 Admin Dashboard</h2>
+      <p style="margin:0 0 1.5rem;font-size:0.82rem;color:#888;">Διαχείριση περιεχομένου A.C. Pella</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+
+        <!-- Ανακοινώσεις -->
+        <div style="border:1px solid #e5e5e5;border-radius:10px;padding:1.3rem;">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">📢</div>
+          <div style="font-size:0.95rem;font-weight:600;color:#1a1a1a;margin-bottom:0.3rem;">Ανακοινώσεις</div>
+          <div style="font-size:0.78rem;color:#888;margin-bottom:1rem;">Προσθήκη νέων ανακοινώσεων</div>
+          <button onclick="closeAdminDashboard();navigate('ann');setTimeout(()=>openAnnModal(),300)" style="width:100%;padding:0.55rem;background:#3A7D44;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:500;">+ Νέα Ανακοίνωση</button>
+        </div>
+
+        <!-- Gallery -->
+        <div style="border:1px solid #e5e5e5;border-radius:10px;padding:1.3rem;">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">🖼️</div>
+          <div style="font-size:0.95rem;font-weight:600;color:#1a1a1a;margin-bottom:0.3rem;">Photo Gallery</div>
+          <div style="font-size:0.78rem;color:#888;margin-bottom:1rem;">Ανέβασμα φωτογραφιών</div>
+          <button onclick="closeAdminDashboard();navigate('gallery');setTimeout(()=>document.getElementById('adminPhotoInput').click(),300)" style="width:100%;padding:0.55rem;background:#3A7D44;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:500;">+ Νέα Φωτογραφία</button>
+          <input type="file" id="adminPhotoInput" accept="image/*" multiple style="display:none" onchange="adminAddPhotos(this)"/>
+        </div>
+
+        <!-- Ισολογισμοί -->
+        <div style="border:1px solid #e5e5e5;border-radius:10px;padding:1.3rem;">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">📄</div>
+          <div style="font-size:0.95rem;font-weight:600;color:#1a1a1a;margin-bottom:0.3rem;">Ισολογισμοί</div>
+          <div style="font-size:0.78rem;color:#888;margin-bottom:1rem;">Ανέβασμα PDF ισολογισμών</div>
+          <button onclick="closeAdminDashboard();navigate('iso');setTimeout(()=>openIsoUpload(),300)" style="width:100%;padding:0.55rem;background:#3A7D44;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:500;">+ Νέος Ισολογισμός</button>
+        </div>
+
+        <!-- Πιστοποιητικά -->
+        <div style="border:1px solid #e5e5e5;border-radius:10px;padding:1.3rem;">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">🏆</div>
+          <div style="font-size:0.95rem;font-weight:600;color:#1a1a1a;margin-bottom:0.3rem;">Πιστοποιητικά</div>
+          <div style="font-size:0.78rem;color:#888;margin-bottom:1rem;">Προσθήκη πιστοποιητικών</div>
+          <button onclick="closeAdminDashboard();navigate('pist');setTimeout(()=>openCertUpload(),300)" style="width:100%;padding:0.55rem;background:#3A7D44;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:500;">+ Νέο Πιστοποιητικό</button>
+        </div>
+
+      </div>
+
+      <div style="margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid #f0f0f0;">
+        <div style="font-size:0.78rem;color:#888;margin-bottom:0.8rem;font-weight:500;">ΕΠΕΞΕΡΓΑΣΙΑ ΚΕΙΜΕΝΩΝ</div>
+        <p style="font-size:0.82rem;color:#555;margin:0;">Κάνε κλικ σε οποιοδήποτε κείμενο στη σελίδα για να το αλλάξεις. Πάτα <strong>💾 Αποθήκευση</strong> όταν τελειώσεις.</p>
+      </div>
+
     </div>
   </div>
 
